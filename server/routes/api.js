@@ -536,6 +536,27 @@ router.route('/messages/:id')
       .catch((err) => {
         res.status(500).send(err);
       })
+  })
+  .post(authHelper.isAdmin, function (req, res, next) {
+    var id = req.params.id || req.body.id || null;
+    if (id == 'deleteMultiple') {
+      // do delete multiple
+      var idList = req.body.deleteList || [0, 0];
+      if (!idList.some(isNaN)) {
+        logger.main.info('Deleting: ' + idList);
+        db.from('messages')
+          .del()
+          .where('id', 'in', idList)
+          .then((result) => {
+            res.status(200).send({ 'status': 'ok' });
+
+          }).catch((err) => {
+            res.status(500).send(err);
+          })
+      } else {
+        res.status(400).send({ 'status': 'error', 'error': 'id list contained non-numbers' });
+      }
+    }
   });
 
 router.route('/messageSearch')

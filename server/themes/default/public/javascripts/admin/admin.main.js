@@ -36,6 +36,12 @@ angular.module('app', ['ngRoute', 'ngResource', 'ngSanitize', 'angular-uuid', 'u
         UseremailCheck: $resource('/api/userCheck/email/:id', {id: '@id'}, {
           'post': { method:'POST', isArray: false }
         }),
+        Messages: $resource('/api/messages', null, {
+          'query': { method:'GET', isArray: false }
+        }),
+        MessageDetail: $resource('/api/messages/:id', {id: '@id'}, {
+          'post': { method:'POST', isArray: false }
+        }),
       };
     }])
 
@@ -327,7 +333,7 @@ angular.module('app', ['ngRoute', 'ngResource', 'ngSanitize', 'angular-uuid', 'u
           $location.url('/users/'+id);
       };
  
-     $scope.userSelected = function() {
+      $scope.userSelected = function() {
         if ($scope.users) {
           var trues = $filter("filter")($scope.users, {
               selected: true
@@ -663,6 +669,98 @@ angular.module('app', ['ngRoute', 'ngResource', 'ngSanitize', 'angular-uuid', 'u
           console.log(results);
         }
       });
+    }])
+
+    .controller('MessageController', ['$scope', '$routeParams', 'Api', '$uibModal', '$filter', '$location', '$timeout', 'FileSaver', function ($scope, $routeParams, Api, $uibModal, $filter, $location, $timeout, FileSaver) {
+      $scope.loading = true;
+      $scope.alertMessage = {};
+      Api.Messages.query(null, function(results) {
+        angular.forEach(results.messages, function (result) {
+          var timestamp = moment.unix(result.timestamp);
+          result.date = timestamp.format("YYYY-MM-DD");
+          result.time = timestamp.format("HH:mm");
+        });
+
+        $scope.messages = results.messages;
+        $scope.page = 'messages';
+        $scope.loading = false;
+      });
+
+      $scope.messageSelected = function () {
+        if ($scope.messages) {
+          var trues = $filter("filter")($scope.messages, {
+            selected: true
+          });
+          return trues.length;
+        }
+      };
+
+      $scope.messageDelete = function () {
+        var numSelected = $scope.messageSelected();
+        var modalHtml =  '<div class="modal-header"><h5 class="modal-title" id="modal-title">Delete messages</h5></div>';
+        var message   =  '<p>Are you sure you want to delete these messages?</p><p>Messages cannot be restored after saving.</p><p><strong>'+numSelected+' messages selected for deletion.</strong></p>';
+            modalHtml += '<div class="modal-body">' + message + '</div>';
+            modalHtml += '<div class="modal-footer"><button class="btn btn-danger" ng-click="confirmDelete()">OK</button><button class="btn btn-primary" ng-click="cancelDelete()">Cancel</button></div>';
+
+        var modalInstance = $uibModal.open({
+          template: modalHtml,
+          controller: ConfirmController
+        });
+
+        modalInstance.result.then(function() {
+          $scope.messageDeleteConfirmed();
+        }, function () {
+          //$log.info('Modal dismissed at: ' + new Date());
+        });
+      };
+
+      $scope.messageDeleteConfirmed = function () {
+        var deleteList = [];
+        $scope.loading = true;
+        $scope.selectedAll = false;
+        angular.forEach($scope.messages, function(selected){
+            if(selected.selected){
+                deleteList.push(selected.id);
+            }
+        });
+        var data = {'deleteList': deleteList};
+        console.log(data);
+        Api.MessageDetail.post({id: 'deleteMultiple' }, data).$promise.then(function (response) {
+          console.log(response);
+          $scope.loading = false;
+          if (response.status == 'ok') {
+            $scope.alertMessage.text = 'Messages deleted!';
+            $scope.alertMessage.type = 'alert-success';
+            $scope.alertMessage.show = true;
+            $timeout(function () { $scope.alertMessage.show = false; }, 3000);
+            $location.url('/messages/');
+          } else {
+            $scope.alertMessage.text = 'Error deleting messages: '+response.data.error;
+            $scope.alertMessage.type = 'alert-danger';
+            $scope.alertMessage.show = true;
+            $timeout(function () { $scope.alertMessage.show = false; }, 3000);
+          }
+        }, function(response) {
+          console.log(response);
+          $scope.alertMessage.text = 'Error deleting messages: ' + response.data.error;
+          $scope.alertMessage.type = 'alert-danger';
+          $scope.alertMessage.show = true;
+          $timeout(function () {
+            $scope.alertMessage.show = false;
+          }, 3000);
+          $scope.loading = false;
+        });
+      };
+
+      var ConfirmController = function ($scope, $uibModalInstance) {
+        $scope.confirmDelete = function () {
+          $uibModalInstance.close();
+        };
+
+        $scope.cancelDelete = function () {
+          $uibModalInstance.dismiss('cancel');
+        };
+      };
     }])
     
     .controller('AliasDetailCtrl', ['$scope', '$routeParams', 'Api', '$uibModal', '$filter', '$location', '$timeout', function ($scope, $routeParams, Api, $uibModal, $filter, $location, $timeout) {
@@ -1102,6 +1200,10 @@ angular.module('app', ['ngRoute', 'ngResource', 'ngSanitize', 'angular-uuid', 'u
         .when('/users/:id', {
           templateUrl: '/templates/admin/userDetails.html',
           controller: 'UserDetailController'
+        })
+        .when('/messages', {
+          templateUrl: '/templates/admin/messages.html',
+          controller: 'MessageController'
         })
         .when('/settings', {
           templateUrl: '/templates/admin/settings.html',
