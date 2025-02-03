@@ -19,13 +19,12 @@
 </div>
 
 <div class="row">
-    <div class="col-xs-12">
-    <p></p>
-    <div class="">
+  <div class="col-xs-12">
+    <div class="admin-table-wrapper">
       <table class="table table-condensed table-hover table-striped valign">
         <thead class="thead-default">
           <tr>
-            <th></th>
+            <th class="sticky-col"></th>
             <th style="text-align: center;">ID</th>
             <th style="text-align: center;">Date</th>
             <th style="text-align: center;">Time</th>
@@ -38,7 +37,7 @@
         </thead>
         <tbody>
         <tr ng-repeat="message in messages | filter: search">
-          <td class="shrink" style="vertical-align: middle;">
+          <td class="shrink sticky-col" style="vertical-align: middle;">
             <input ng-model="message.selected" type="checkbox"/>
           </td>
           <td class="shrink">

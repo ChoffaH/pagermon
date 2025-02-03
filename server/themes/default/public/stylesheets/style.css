@@ -409,6 +409,24 @@ table .expand {
     pointer-events:none;
 }
 
+.admin-table-wrapper {
+    position: relative;
+    overflow: auto;
+}
+
+.sticky-col {
+    position: sticky;
+    left: 0;
+    background-color: inherit;
+    transition: none !important;
+    box-shadow: 10px 0 5px -2px #888;
+}
+
+.table-striped>tbody>tr,
+.table-striped>thead>tr {
+    background-color: #ffffff;
+}
+
 html,
 body {
   height: 100%;
