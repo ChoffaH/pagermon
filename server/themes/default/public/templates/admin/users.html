@@ -21,11 +21,11 @@
 <div class="row">
     <div class="col-xs-12">
     <p></p>
-    <div class="">
+    <div class="admin-table-wrapper">
       <table class="table table-condensed table-hover table-striped valign">
         <thead class="thead-default">
           <tr>
-            <th></th>
+            <th class="sticky-col"></th>
             <th style="text-align: center;">ID</th>
             <th style="text-align: center;">Username</th>
             <th style="text-align: center;">Given Name</th>
@@ -37,7 +37,7 @@
         </thead>
         <tbody>
           <tr ng-repeat="user in users | filter: search">
-            <td class="shrink" style="vertical-align: middle;"><input type="checkbox" ng-model="user.selected" /></td>
+            <td class="shrink sticky-col" style="vertical-align: middle;"><input type="checkbox" ng-model="user.selected" /></td>
             <td class="shrink clickable-td" style="color: Maroon;" ng-click="userDetail(user.id);">
               <span style="font-family: monospace;"><strong>{{user.id}}</strong></span>
             </td>
