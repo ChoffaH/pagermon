@@ -674,7 +674,9 @@ angular.module('app', ['ngRoute', 'ngResource', 'ngSanitize', 'angular-uuid', 'u
     .controller('MessageController', ['$scope', '$routeParams', 'Api', '$uibModal', '$filter', '$location', '$timeout', 'FileSaver', function ($scope, $routeParams, Api, $uibModal, $filter, $location, $timeout, FileSaver) {
       $scope.loading = true;
       $scope.alertMessage = {};
-      Api.Messages.query(null, function(results) {
+      $scope.currentPage = parseInt($routeParams.page) || 1;
+
+      Api.Messages.query({page: $scope.currentPage}, function(results) {
         angular.forEach(results.messages, function (result) {
           var timestamp = moment.unix(result.timestamp);
           result.date = timestamp.format("YYYY-MM-DD");
@@ -682,9 +684,31 @@ angular.module('app', ['ngRoute', 'ngResource', 'ngSanitize', 'angular-uuid', 'u
         });
 
         $scope.messages = results.messages;
-        $scope.page = 'messages';
+        $scope.pageCount = results.init.pageCount;
         $scope.loading = false;
       });
+
+      $scope.pages = function () {
+        const currentPage = $scope.currentPage;
+        const pageCount = $scope.pageCount;
+        const pages = [];
+
+        let startPage = Math.max(currentPage - 5, 1);
+        let endPage = Math.min(currentPage + 4, pageCount);
+        if (endPage - startPage < 9) {
+          if (startPage === 1) {
+            endPage = Math.min(10, pageCount);
+          } else if (endPage === pageCount) {
+            startPage = Math.max(pageCount - 9, 1);
+          }
+        }
+
+        for (let i = startPage; i <= endPage; i++) {
+          pages.push(i);
+        }
+
+        return pages;
+      };
 
       $scope.messageSelected = function () {
         if ($scope.messages) {
