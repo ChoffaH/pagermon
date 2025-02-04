@@ -2,7 +2,7 @@
 #	Build & install packages
 # multistage to save time when building (don't install packages every time)
 #
-FROM slocomptech/bi-node:12 as builder
+FROM slocomptech/bi-node:12 AS builder
 
 COPY package.json /app/
 
