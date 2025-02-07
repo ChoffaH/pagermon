@@ -1,0 +1,12 @@
+$navbar-padding-y: 0.3rem;
+
+@import "bootswatch/dist/materia/variables";
+@import "bootstrap/scss/bootstrap";
+@import "bootswatch/dist/materia/bootswatch";
+
+body {
+  padding-top: 3rem;
+}
+
+// @import 'app';
+// @import 'textAngular';

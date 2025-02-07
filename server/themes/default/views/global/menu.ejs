@@ -1,42 +1,52 @@
-<nav class="navbar navbar-fixed-top">
+<nav class="navbar navbar-expand-lg navbar-light bg-light fixed-top">
   <div class="container-fluid">
-    <div class="navbar-header">
-      <button type="button" class="navbar-toggle btn-xs" data-toggle="collapse" data-target="#myNavbar">
-        <i class="fa fa-bars fa-2x" aria-label="toggle menu"></i>
-      </button>
-      <a class="navbar-brand" href="/"><%= monitorName || 'PagerMon' %></a></a></a>
-    </div>
-    <div class="collapse navbar-collapse" id="myNavbar">
-      <ul class="nav navbar-nav">
-        <li><a href="/"><span class="fa fa-fw fa-home"></span> Home</a></li>
-        <% if (login && user.role == 'admin') { %>
-        <li class="dropdown">
-          <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"><span class="fa fa-fw fa-lock"></span> Admin <span class="caret"></span></a>
-          <ul class="dropdown-menu">
-            <li><a href="/admin/aliases"><span class="fa fa-fw fa-address-card"></span> Aliases</a></li>
-            <li class="disabled" disabled><a href="#"><span class="fa fa-fw fa-inbox"></span> Messages</a></li>
-            <li><a href="/admin/users"><span class="fa fa-fw fa-user"></span> Users</a></li>
-            <li role="separator" class="divider"></li>
-            <li><a href="/admin/settings"><span class="fa fa-fw fa-cogs"></span> Settings</a></li>
-          </ul>
+    <a class="navbar-brand" href="/"><%= monitorName || 'PagerMon' %></a></a></a>
+    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse" aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="navbar-collapse collapse" id="navbarCollapse">
+      <ul class="navbar-nav me-auto">
+        <li class="nav-item">
+          <a href="/" class="nav-link"><span class="fa fa-fw fa-home"></span> Home</a>
         </li>
+        <% if (login && user.role == 'admin') { %>
+          <li class="nav-item dropdown">
+            <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">
+              <span class="fa fa-fw fa-lock"></span> Admin
+            </a>
+            <div class="dropdown-menu">
+              <a href="/admin/aliases" class="dropdown-item"><span class="fa fa-fw fa-address-card"></span> Aliases</a>
+              <a href="#" class="dropdown-item disabled"><span class="fa fa-fw fa-inbox"></span> Messages</a>
+              <a href="/admin/users" class="dropdown-item"><span class="fa fa-fw fa-user"></span> Users</a>
+              <div class="dropdown-divider"></div>
+              <a href="/admin/settings" class="dropdown-item"><span class="fa fa-fw fa-cogs"></span> Settings</a>
+            </div>
+          </li>
         <% } %>
       </ul>
-      <ul class="nav navbar-nav navbar-right">
+      <ul class="navbar-nav navbar-right">
         <% if (login) { %>
-          <li class="dropdown">
-            <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"><span class="fa fa-fw fa-user"></span> <%= user.username%> <span class="caret"></span></a>
-            <ul class="dropdown-menu">
-              <li><a href="/auth/profile"><span class="fa fa-fw fa-cogs"></span> My Profile</a></li>
-              <li><a href="/auth/reset"><span class="fa fa-fw fa-key"></span> Reset Password</a></li>
-            </ul>
+          <li class="nav-item dropdown">
+            <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">
+              <span class="fa fa-fw fa-user"></span> <%= user.username%>
+            </a>
+            <div class="dropdown-menu">
+              <a href="/auth/profile" class="dropdown-item"><span class="fa fa-fw fa-cogs"></span> My Profile</a>
+              <a href="/auth/reset" class="dropdown-item"><span class="fa fa-fw fa-key"></span> Reset Password</a>
+            </div>
           </li>
-        <li><a href="/auth/logout"><span class="fa fa-fw fa-sign-out"></span> Sign Out</a></li>
+          <li class="nav-item">
+            <a href="/auth/logout" class="nav-link"><span class="fa fa-fw fa-sign-out"></span> Sign Out</a>
+          </li>
         <% } else { %>
         <% if (register) { %>
-        <li><a href="/auth/register"><span class="fa fa-fw fa-user"></span> Register</a></li>
+          <li class="nav-item">
+            <a href="/auth/register" class="nav-link"><span class="fa fa-fw fa-user"></span> Register</a>
+          </li>
         <% } %>
-        <li><a href="/auth/login"><span class="fa fa-fw fa-sign-in"></span> Sign In</a></li>
+          <li class="nav-item">
+            <a href="/auth/login" class="nav-link"><span class="fa fa-fw fa-sign-in"></span> Sign In</a>
+          </li>
         <% } %>
       </ul>
     </div>
@@ -49,26 +59,26 @@
 </nav>
 
 <script>
-    $(function () {
-        $("#home-body a:contains('Home')").parent().addClass('active');
-        $("#admin-body a:contains('Admin')").parent().addClass('active');
-     });
+  $(function () {
+    $("#home-body a:contains('Home')").addClass('active');
+    $("#admin-body a:contains('Admin')").addClass('active');
+  });
 </script>
 
 <script>
-$("#toggle").click( function(event){
+  $("#toggle").click( function(event){
     event.preventDefault();
-    if ($(this).hasClass("isDown") ) {
-        $( ".navbar-fixed-top" ).animate({ "margin-top": "-64px" }, "fast" );  
-        $( "#content" ).animate({ "margin-top": "-64px" }, "fast" );
-        $(this).removeClass("isDown");
-    } else {
-        $( ".navbar-fixed-top" ).animate({ "margin-top": "0px" }, "fast" );
-        $( "#content" ).animate({ "margin-top": "0px" }, "fast" );
-        $(this).addClass("isDown");
-    }
-    return false;
-});
-</script>
 
-<div id="wrap">
+    if ($(this).hasClass("isDown") ) {
+      $( ".navbar-fixed-top" ).animate({ "margin-top": "-64px" }, "fast" );  
+      $( "#content" ).animate({ "margin-top": "-64px" }, "fast" );
+      $(this).removeClass("isDown");
+    } else {
+      $( ".navbar-fixed-top" ).animate({ "margin-top": "0px" }, "fast" );
+      $( "#content" ).animate({ "margin-top": "0px" }, "fast" );
+      $(this).addClass("isDown");
+    }
+
+    return false;
+  });
+</script>

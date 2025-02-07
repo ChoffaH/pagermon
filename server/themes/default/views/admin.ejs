@@ -1,16 +1,19 @@
 <!DOCTYPE html>
 <html ng-app=app lang="en">
-<%- include ('global/header') -%>
-<%- include ('global/header-admin') -%>
-<base href="/admin/">
-</head>
+  <head>
+    <%- include ('global/header') -%>
+    <%- include ('global/header-admin') -%>
+    <base href="/admin/">
+    <script src="/javascripts/admin/admin.main.js"></script>
+  </head>
 
-<script src="/javascripts/admin/admin.main.js"></script>
+  <body id="admin-body">
+    <%- include ('global/menu') -%>
 
-<body id="admin-body">
-  <%- include ('global/menu') -%>
-  <div id="content" class="container" ng-cloak>
-    <ng-view></ng-view>
-  </div>
-  
-<%- include ('global/footer') -%>
+    <main class="container" ng-cloak>
+      <ng-view></ng-view>
+    </main>
+    
+    <%- include ('global/footer') -%>
+  </body>
+</html>

@@ -1,4 +1,3 @@
-  <head>
     <meta charset="utf-8">
     <title><%= monitorName || 'PagerMon' %> <% if ( typeof pageTitle !== 'undefined') { %> | <%= pageTitle %> <% } %></title>
     <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png?v=yyx75bRMkG">
@@ -13,11 +12,9 @@
     <meta name="theme-color" content="#ffffff">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <!-- Libraries -->
-    <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootswatch/3.3.7/paper/bootstrap.min.css">
     <script src="//ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
-    <script src="//maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
-    <!--<link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">-->
-    <!--<link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap-theme.min.css">-->
+    <script src="//cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+
     <script src="//ajax.googleapis.com/ajax/libs/angularjs/1.6.4/angular.min.js"></script>
     <script src="//ajax.googleapis.com/ajax/libs/angularjs/1.6.4/angular-route.min.js"></script>
     <script src="//ajax.googleapis.com/ajax/libs/angularjs/1.6.4/angular-resource.min.js"></script>
@@ -37,15 +34,14 @@
     <script async src="//use.fontawesome.com/94a5ae7a0b.js"></script>
     <script src="/javascripts/angular-sortable-view.min.js"></script>
     <link rel='stylesheet' href='/stylesheets/style.css' />
-    <link rel='stylesheet' href='/stylesheets/textAngular.css' />
     <% if (gaEnable) { %>
-    <!-- Global site tag (gtag.js) - Google Analytics -->
-    <script async src="//www.googletagmanager.com/gtag/js?id=<%= gaTrackingCode %>"></script>
-    <script>
-      window.dataLayer = window.dataLayer || [];
-      function gtag(){dataLayer.push(arguments);}
-      gtag('js', new Date());
+      <!-- Global site tag (gtag.js) - Google Analytics -->
+      <script async src="//www.googletagmanager.com/gtag/js?id=<%= gaTrackingCode %>"></script>
+      <script>
+        window.dataLayer = window.dataLayer || [];
+        function gtag(){dataLayer.push(arguments);}
+        gtag('js', new Date());
 
-      gtag('config', '<%= gaTrackingCode %>');
-    </script>
-      <% } %>
+        gtag('config', '<%= gaTrackingCode %>');
+      </script>
+    <% } %>
