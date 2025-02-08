@@ -1,12 +1,12 @@
-<div class="row">
-  <div class="text-center col-xs-10 col-xs-offset-1 col-lg-6 col-lg-offset-3">
-    <ul ng-if="init.pageCount" class="pagination">
-      <li ng-class="{disabled:init.currentPage === 1}" class="page-item">
+<div class="row justify-content-center mt-3">
+  <div class="col-sm-10 col-xl-6">  
+    <ul ng-if="init.pageCount" class="pagination d-table w-100 text-center">
+      <li ng-class="{disabled:init.currentPage === 1}" class="page-item d-table-cell">
         <a ng-click="updateData(1);" class="page-link" aria-label="First">
           <i class="fa fa-angle-double-left"></i>
         </a>
       </li>
-      <li ng-class="{disabled:init.currentPage === 1}" class="page-item">
+      <li ng-class="{disabled:init.currentPage === 1}" class="page-item d-table-cell">
         <span ng-if="init.currentPage === 1" class="page-link" aria-label="Previous">
           <i class="fa fa-angle-left"></i>
         </span>
@@ -15,13 +15,13 @@
           <span class="d-sm-none">{{init.currentPage-1}}</span>
         </a>
       </li>
-      <li ng-repeat="page in init.pages" ng-class="{active:init.currentPage === page}" class="page-item d-none d-sm-block">
+      <li ng-repeat="page in init.pages" ng-class="{active:init.currentPage === page}" class="page-item d-none d-sm-table-cell">
         <a ng-click="updateData(page);" class="page-link">{{page}}</a>
       </li>
-      <li class="active page-item d-sm-none">
+      <li class="active page-item d-table-cell d-sm-none">
         <a ng-click="updateData(init.currentPage);" class="page-link">{{init.currentPage}}</a>
       </li>              
-      <li ng-class="{disabled:init.currentPage === init.pageCount}" class="page-item">
+      <li ng-class="{disabled:init.currentPage === init.pageCount}" class="page-item d-table-cell">
         <span ng-if="init.currentPage === init.pageCount" class="page-link">
           <i class="fa fa-angle-right"></i>
         </span>
@@ -30,7 +30,7 @@
           <span class="d-sm-none">{{init.currentPage+1}}</span>
         </a>
       </li>
-      <li ng-class="{disabled:init.currentPage === init.pageCount}" class="page-item">
+      <li ng-class="{disabled:init.currentPage === init.pageCount}" class="page-item d-table-cell">
         <a ng-click="updateData(init.pageCount);" class="page-link" aria-label="Last">
           <i class="fa fa-angle-double-right"></i>
         </a>
