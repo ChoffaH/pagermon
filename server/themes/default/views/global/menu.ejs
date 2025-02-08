@@ -1,4 +1,4 @@
-<nav class="navbar navbar-expand-lg navbar-light bg-light fixed-top">
+<nav class="navbar navbar-expand-lg navbar-light bg-light fixed-top" ng-class="{'navbar-up': menu.navbarUp}">
   <div class="container-fluid">
     <a class="navbar-brand link-primary" href="/"><%= monitorName || 'PagerMon' %></a></a></a>
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse" aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation">
@@ -51,35 +51,17 @@
       </ul>
     </div>
   </div>
-  <!-- TODO:
-  <div class="triangle-down triangle-right hidden-xs">
+
+  <div class="btn-navbar-up hidden-xs" ng-init="menu.navbarUp = false" ng-click="menu.navbarUp = !menu.navbarUp">
     <p>
-      <i class="fa fa-chevron-down fa-2x isDown" id="toggle"></i>
+      <i class="fa fa-chevron-down fa-2x"></i>
     </p>
-  </div> -->
+  </div>
 </nav>
 
 <script>
   $(function () {
     $("#home-body a:contains('Home')").addClass('active');
     $("#admin-body a:contains('Admin')").addClass('active');
-  });
-</script>
-
-<script>
-  $("#toggle").click( function(event){
-    event.preventDefault();
-
-    if ($(this).hasClass("isDown") ) {
-      $( ".navbar-fixed-top" ).animate({ "margin-top": "-64px" }, "fast" );  
-      $( "#content" ).animate({ "margin-top": "-64px" }, "fast" );
-      $(this).removeClass("isDown");
-    } else {
-      $( ".navbar-fixed-top" ).animate({ "margin-top": "0px" }, "fast" );
-      $( "#content" ).animate({ "margin-top": "0px" }, "fast" );
-      $(this).addClass("isDown");
-    }
-
-    return false;
   });
 </script>
