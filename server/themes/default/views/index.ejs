@@ -111,16 +111,24 @@
                 <td class="text-nowrap align-middle text-secondary noMobile noSmall">{{message.date}}</td>
                 <td class="text-nowrap align-middle text-secondary">{{message.time}}</td>
                 <% if (!hidesource || (login && user.role == 'admin')) { %>
-                  <td class="text-nowrap align-middle text-secondary noMobile noSmall clickable-td" uib-popover-template="'templates/popover.html'" popover-append-to-body=true ng-click="popoverEl = 'source'" popover-trigger="'outsideClick'" style="background-color: {{message.color || 'grey'}}; text-align: center;">
+                  <td class="text-nowrap align-middle text-secondary noMobile noSmall clickable-td"
+                      uib-popover-template="'templates/popover.html'" popover-append-to-body=true 
+                      popover-animation=false ng-click="popoverEl = 'source'" popover-trigger="'outsideClick'"
+                      style="background-color: {{message.color || 'grey'}}; text-align: center;">
                     <span class="small" style="color: white; font-family: monospace;"><strong>{{message.source}}</strong></span>
                   </td>
                 <% } %>
                 <% if (!hidecapcode || (login && user.role == 'admin')) { %>
-                  <td class="text-nowrap align-middle text-secondary noMobile noSmall clickable-td" uib-popover-template="'templates/popover.html'" popover-append-to-body=true ng-click="popoverEl = 'address'" popover-trigger="'outsideClick'" style="background-color: {{message.color || 'grey'}}; text-align: center;">
+                  <td class="text-nowrap align-middle text-secondary noMobile noSmall clickable-td"
+                      uib-popover-template="'templates/popover.html'" popover-append-to-body=true
+                      popover-animation=false ng-click="popoverEl = 'address'" popover-trigger="'outsideClick'"
+                      style="background-color: {{message.color || 'grey'}}; text-align: center;">
                     <span class="small" style="color: white; font-family: monospace;"><strong>{{message.address}}</strong></span>
                   </td>
                 <% } %>
-                <td class="text-nowrap align-middle text-secondary clickable-td" ng-if="message.agency" uib-popover-template="'templates/popover.html'" popover-append-to-body=true ng-click="popoverEl = 'agency'" popover-trigger="'outsideClick'">
+                <td class="text-nowrap align-middle text-secondary clickable-td" ng-if="message.agency"
+                    uib-popover-template="'templates/popover.html'" popover-append-to-body=true
+                    popover-animation=false ng-click="popoverEl = 'agency'" popover-trigger="'outsideClick'">
                   <% if (iconsize == 'small') { %>
                   <span class="fa-stack fa-fw" style="color: {{message.color || 'grey'}};">
                   <% } else { %>
@@ -146,7 +154,7 @@
                 </td>
                 <td class="text-nowrap align-middle text-secondary noMobile clickable-td" ng-if="user"
                     uib-popover-template="'templates/popover.html'" popover-append-to-body=true
-                    ng-click="popoverEl = 'alias'" popover-trigger="'outsideClick'">
+                    popover-animation=false ng-click="popoverEl = 'alias'" popover-trigger="'outsideClick'">
                   <span style="color: Maroon;">{{message.alias || 'Unknown'}}</span>
                 </td>
                 <td class="text-nowrap align-middle text-secondary noMobile" ng-if="!user">
