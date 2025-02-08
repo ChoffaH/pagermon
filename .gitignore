@@ -97,5 +97,5 @@ server/coverage/
 # macOS Spotlight
 **/.DS_Store
 
-# Built css
-**/*.css
+# Built assets
+server/themes/default/public/assets

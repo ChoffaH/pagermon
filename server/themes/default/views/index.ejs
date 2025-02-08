@@ -86,14 +86,14 @@
                     </div>
                 </th>
                 <% if (!hidesource || (login && user.role == 'admin')) { %>
-                  <th class="noMobile noSmall" style="text-align: center;">Src</th>
+                  <th class="noMobile noSmall">Src</th>
                 <% } %>
                 <% if (!hidecapcode || (login && user.role == 'admin')) { %>
-                  <th class="noMobile" style="text-align: center;">Capcode</th>
+                  <th class="noMobile">Capcode</th>
                 <% } %>
                 <th class="noMobile noSmall"></th>
                 <th class="noMobile noSmall"></th>
-                <th style="text-align: center;">Message
+                <th>Message
                   <span ng-if="filter || hasQuery" class="pull-left" style="vertical-align: middle; padding-right: 10px;">
                       <strong>Filter:</strong> <a ng-href="/" style="margin-bottom: 3px;" class="btn btn-primary btn-xs">{{filter || origQuery}} <i class="fa fa-fw fa-times"></i></a>
                   </span></th>

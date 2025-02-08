@@ -1,12 +1,12 @@
-$primary: Maroon;
-$secondary: #f9f9f9;
-
-$navbar-padding-y: 0.3rem;
-$font-size-base: 0.8rem;
+@import "variables";
 
 @import "bootswatch/dist/materia/variables";
 @import "bootstrap/scss/bootstrap";
 @import "bootswatch/dist/materia/bootswatch";
+
+// Font Awesome
+@import "@fortawesome/fontawesome-free/scss/fontawesome";
+@import "@fortawesome/fontawesome-free/scss/solid";
 
 @import 'app';
 // @import 'textAngular';
