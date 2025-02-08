@@ -1,11 +1,16 @@
-<footer id="footer" class="footer footer-nav">
-  <div class="container-fluid">
-    <div class="col-sm-12 text-center navbar-text">
-        <span class="pull-left text-muted">PagerMon 
-          <% if(typeof version != 'undefined'){ %>
-            <%=version%>
-          <% } %></span>
-        <span class="pull-right text-muted"><a href="https://github.com/pagermon/pagermon" rel="noreferrer" target="_blank"><i class="fa fa-2x fa-github" style=" vertical-align: middle;"></i> <span >GitHub</span></a></span>
+<footer class="bg-light">
+  <div class="d-flex justify-content-between align-items-center h-100">
+    <div class="ps-5">
+      PagerMon
+      <% if(typeof version != 'undefined'){ %>
+        <%=version%>
+      <% } %>
+    </div>
+    
+    <div class="pe-5">
+      <a href="https://github.com/pagermon/pagermon" rel="noreferrer" target="_blank">
+        <i class="fa-brands fa-2x fa-github" style=" vertical-align: middle;"></i> <span >GitHub</span>
+      </a>
     </div>
   </div>
 </footer>
