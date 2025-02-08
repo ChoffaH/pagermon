@@ -66,36 +66,54 @@
               </div>
             </div>
           <% } %>
-          <table class="table table-sm table-hover table-striped valign">
-            <thead class="thead-default">
+          <table class="table table-sm table-hover table-striped">
+            <thead>
               <tr>
                 <th colspan="2">
-                    <div class="btn-group" data-toggle="buttons">
-                      <button type="button" class="btn btn-default btn-sm" ng-click="updateData();" aria-label="Refresh" title="Refresh Messages"><i class="fa fa-refresh {{spinner}}" aria-hidden="true"></i></button>
-                      <button type="button" ng-if="notificationSupport == true" class="btn btn-default btn-sm" ng-class="{active: notificationEnabled == 'true'}" ng-click="toggleNotifications();" aria-label="Notifications" title="Toggle Browser Notifications">
-                        <i class="fa fa-bell" aria-hidden="true"></i></button>
-                    <span class="dropdown">
-                      <button class="btn btn-default btn-sm dropdown-toggle" type="button" data-toggle="dropdown" title="Message Limit">{{init.limit}} <span class="caret"></span></button>
-                      <ul class="dropdown-menu" role="menu" style="margin-top: 9px;">
-                        <li ng-class="{disabled:init.limit == 10}"><a href="#" ng-click="setCookie('messageLimit', 10);">10</a></li>
-                        <li ng-class="{disabled:init.limit == 20}"><a href="#" ng-click="setCookie('messageLimit', 20);">20</a></li>
-                        <li ng-class="{disabled:init.limit == 50}"><a href="#" ng-click="setCookie('messageLimit', 50);">50</a></li>
-                        <li ng-class="{disabled:init.limit == 100}"><a href="#" ng-click="setCookie('messageLimit', 100);">100</a></li>
+                  <div class="btn-group btn-group-sm mb-1" role="group">
+                    <button type="button" class="btn" ng-click="updateData();" aria-label="Refresh" title="Refresh Messages">
+                      <i class="fa fa-refresh {{spinner}}" aria-hidden="true"></i>
+                    </button>
+                    <button type="button" ng-if="notificationSupport == true" class="btn" ng-class="{active: notificationEnabled == 'true'}" ng-click="toggleNotifications();" aria-label="Notifications" title="Toggle Browser Notifications">
+                        <i class="fa fa-bell" aria-hidden="true"></i>
+                    </button>
+
+                    <div class="btn-group btn-group-sm" role="group">
+                      <button type="button" id="messageLimitDrop" class="btn dropdown-toggle" data-bs-toggle="dropdown" title="Message Limit" aria-expanded="false">
+                        {{init.limit}}
+                      </button>
+                      <ul class="dropdown-menu" aria-labelledby="messageLimitDrop">
+                        <li>
+                          <a href="#" ng-class="{disabled:init.limit == 10}" class="dropdown-item" ng-click="setCookie('messageLimit', 10);">10</a>
+                        </li>
+                        <li>
+                          <a href="#" ng-class="{disabled:init.limit == 20}" class="dropdown-item" ng-click="setCookie('messageLimit', 20);">20</a>
+                        </li>
+                        <li>
+                          <a href="#" ng-class="{disabled:init.limit == 50}" class="dropdown-item" ng-click="setCookie('messageLimit', 50);">50</a>
+                        </li>
+                        <li>
+                          <a href="#" ng-class="{disabled:init.limit == 100}" class="dropdown-item" ng-click="setCookie('messageLimit', 100);">100</a>
+                        </li>
                       </ul>
-                    </span>
                     </div>
+                  </div>
                 </th>
                 <% if (!hidesource || (login && user.role == 'admin')) { %>
-                  <th class="noMobile noSmall">Src</th>
+                  <th class="align-middle noMobile noSmall">Src</th>
                 <% } %>
                 <% if (!hidecapcode || (login && user.role == 'admin')) { %>
-                  <th class="noMobile">Capcode</th>
+                  <th class="align-middle noMobile">Capcode</th>
                 <% } %>
-                <th class="noMobile noSmall"></th>
-                <th class="noMobile noSmall"></th>
-                <th>Message
-                  <span ng-if="filter || hasQuery" class="pull-left" style="vertical-align: middle; padding-right: 10px;">
-                      <strong>Filter:</strong> <a ng-href="/" style="margin-bottom: 3px;" class="btn btn-primary btn-xs">{{filter || origQuery}} <i class="fa fa-fw fa-times"></i></a>
+                <th class="align-middle noMobile noSmall"></th>
+                <th class="align-middle noMobile noSmall"></th>
+                <th class="align-middle">
+                  Message
+                  <span ng-if="filter || hasQuery" class="border-start p-1">
+                      <strong>Filter:</strong> 
+                      <a ng-href="/" class="btn btn-primary btn-sm mb-1">
+                        {{filter || origQuery}} <i class="fa fa-fw fa-times"></i>
+                      </a>
                   </span></th>
               </tr>
             </thead>
@@ -145,7 +163,7 @@
                 <td class="text-nowrap align-middle noMobile" ng-if="!user">
                   <span>{{message.alias || ''}}</span>
                 </td>
-                <td class="align-middle">
+                <td class="align-middle w-100">
                   <div highlight="message.message" replacement="init.replaceText" class="fw-bold text-break"></div>
                 </td>
             </tbody>
