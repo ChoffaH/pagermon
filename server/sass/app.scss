@@ -1,6 +1,6 @@
 body {
     padding-top: 3rem;
-    color: $gray-600;
+    color: $secondary;
 }
 
 .loading {
@@ -33,4 +33,9 @@ td.clickable-td:hover, td.clickable-td:focus, td.clickable-td:focus:hover {
     background: #f9f9f9;
     cursor: pointer;
     filter: brightness(85%);
+}
+
+// Override stupid Bootswatch CSS
+.text-secondary {
+    color: $secondary !important;
 }
