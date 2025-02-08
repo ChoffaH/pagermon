@@ -180,6 +180,7 @@ angular.module('app', ['ngRoute', 'ngResource', 'ngSanitize', 'angular-uuid', 'u
     .controller('ProfileController', ['$scope', '$routeParams', 'Api', '$uibModal', '$filter', '$location', '$timeout', function ($scope, $routeParams, Api, $uibModal, $filter, $location, $timeout) {
         $scope.alertMessage = {};
         $scope.loading = true;
+
         $scope.userSubmit = function () {
             $scope.loading = true;
             Api.Profile.save(null, $scope.user).$promise.then(function (response) {
@@ -206,6 +207,7 @@ angular.module('app', ['ngRoute', 'ngResource', 'ngSanitize', 'angular-uuid', 'u
                 $scope.loading = false;
             });
         };
+
         Api.Profile.get( function (results) {
             $scope.user = results;
             $scope.userLoading = false;
