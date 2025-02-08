@@ -101,19 +101,19 @@
             </thead>
             <tbody>
               <tr ng-repeat="message in messages | filter: search">
-                <td class="shrink noMobile noSmall">{{message.date}}</td>
-                <td class="shrink">{{message.time}}</td>
+                <td class="text-nowrap align-middle noMobile noSmall">{{message.date}}</td>
+                <td class="text-nowrap align-middle">{{message.time}}</td>
                 <% if (!hidesource || (login && user.role == 'admin')) { %>
-                  <td class="shrink noMobile noSmall clickable-td" uib-popover-template="'templates/popover.html'" popover-append-to-body=true ng-click="popoverEl = 'source'" popover-trigger="'outsideClick'" style="background-color: {{message.color || 'grey'}}; text-align: center;">
+                  <td class="text-nowrap align-middle noMobile noSmall clickable-td" uib-popover-template="'templates/popover.html'" popover-append-to-body=true ng-click="popoverEl = 'source'" popover-trigger="'outsideClick'" style="background-color: {{message.color || 'grey'}}; text-align: center;">
                     <span class="small" style="color: white; font-family: monospace;"><strong>{{message.source}}</strong></span>
                   </td>
                 <% } %>
                 <% if (!hidecapcode || (login && user.role == 'admin')) { %>
-                  <td class="shrink noMobile noSmall clickable-td" uib-popover-template="'templates/popover.html'" popover-append-to-body=true ng-click="popoverEl = 'address'" popover-trigger="'outsideClick'" style="background-color: {{message.color || 'grey'}}; text-align: center;">
+                  <td class="text-nowrap align-middle noMobile noSmall clickable-td" uib-popover-template="'templates/popover.html'" popover-append-to-body=true ng-click="popoverEl = 'address'" popover-trigger="'outsideClick'" style="background-color: {{message.color || 'grey'}}; text-align: center;">
                     <span class="small" style="color: white; font-family: monospace;"><strong>{{message.address}}</strong></span>
                   </td>
                 <% } %>
-                <td class="shrink clickable-td" ng-if="message.agency" uib-popover-template="'templates/popover.html'" popover-append-to-body=true ng-click="popoverEl = 'agency'" popover-trigger="'outsideClick'">
+                <td class="text-nowrap align-middle clickable-td" ng-if="message.agency" uib-popover-template="'templates/popover.html'" popover-append-to-body=true ng-click="popoverEl = 'agency'" popover-trigger="'outsideClick'">
                   <% if (iconsize == 'small') { %>
                   <span class="fa-stack fa-fw" style="color: {{message.color || 'grey'}};">
                   <% } else { %>
@@ -125,7 +125,7 @@
                   </span>
                   <strong style="vertical-align: middle;">{{message.agency || ''}}</strong>
                 </td>
-                <td class="shrink" ng-if="!message.agency">
+                <td class="text-nowrap align-middle" ng-if="!message.agency">
                   <% if (iconsize == 'small') { %>
                   <span class="fa-stack fa-fw" style="color: {{message.color || 'grey'}};">
                   <% } else { %>
@@ -137,16 +137,16 @@
                   </span>
                   <strong style="vertical-align: middle;"></strong>
                 </td>
-                <td class="shrink noMobile clickable-td" ng-if="user"
+                <td class="text-nowrap align-middle noMobile clickable-td" ng-if="user"
                     uib-popover-template="'templates/popover.html'" popover-append-to-body=true
                     ng-click="popoverEl = 'alias'" popover-trigger="'outsideClick'">
                   <span style="color: Maroon;">{{message.alias || 'Unknown'}}</span>
                 </td>
-                <td class="shrink noMobile" ng-if="!user">
+                <td class="text-nowrap align-middle noMobile" ng-if="!user">
                   <span>{{message.alias || ''}}</span>
                 </td>
-                <td class="expand">
-                  <div highlight="message.message" replacement="init.replaceText" class="pagerMessage"></div>
+                <td class="align-middle">
+                  <div highlight="message.message" replacement="init.replaceText" class="fw-bold text-break"></div>
                 </td>
             </tbody>
           </table>

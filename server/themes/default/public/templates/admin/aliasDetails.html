@@ -51,18 +51,18 @@
 			</thead>
 			<tbody>
 			  <tr ng-repeat="template in settings.aliases.templates | filter: search track by $index">
-				<td class="shrink clickable-td" onclick="setAliasTemplate(this);" data-dismiss="modal" style="background-color: {{template.color || 'transparent'}};">
+				<td class="text-nowrap align-middle clickable-td" onclick="setAliasTemplate(this);" data-dismiss="modal" style="background-color: {{template.color || 'transparent'}};">
 				  <span style="color: {{ template.color ? 'white' : 'black' }};"><strong>{{template.color}}</strong></span>
-				<td class="shrink clickable-td" onclick="setAliasTemplate(this);" data-dismiss="modal">
+				<td class="text-nowrap align-middle clickable-td" onclick="setAliasTemplate(this);" data-dismiss="modal">
 				  <span ng-if="template.icon" class="fa-stack fa-lg fa-fw" style="color: {{template.color || 'transparent'}};">
 					<i class="fa fa-circle fa-stack-2x"></i>
 					<i class="fa fa-{{template.icon}} fa-stack-1x fa-inverse"></i>
 				  </span>
 				  <span style="vertical-align: middle;">{{template.icon}}</span>
 				</td>
-				<td class="shrink clickable-td" onclick="setAliasTemplate(this);" data-dismiss="modal"><strong>{{template.agency || ''}}</strong></td>
-				<td class="shrink clickable-td" onclick="setAliasTemplate(this);" data-dismiss="modal"><i ng-if="!template.filter" class="fa fa-circle text-success"></i><i ng-if="template.filter" class="fa fa-exclamation-circle text-danger"></i></td>
-				<td class="expand clickable-td" onclick="setAliasTemplate(this);" data-dismiss="modal" style="color: Maroon;">{{template.name}}</td>
+				<td class="text-nowrap align-middle clickable-td" onclick="setAliasTemplate(this);" data-dismiss="modal"><strong>{{template.agency || ''}}</strong></td>
+				<td class="text-nowrap align-middle clickable-td" onclick="setAliasTemplate(this);" data-dismiss="modal"><i ng-if="!template.filter" class="fa fa-circle text-success"></i><i ng-if="template.filter" class="fa fa-exclamation-circle text-danger"></i></td>
+				<td class="align-middle clickable-td" onclick="setAliasTemplate(this);" data-dismiss="modal" style="color: Maroon;">{{template.name}}</td>
 			</tbody>
 		  </table>
       </div>

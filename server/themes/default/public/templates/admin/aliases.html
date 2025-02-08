@@ -39,29 +39,29 @@
         <tbody>
         <tr ng-repeat="alias in aliases | filter: search">
           <!-- TODO: Add links to filters -->
-          <td class="shrink" style="vertical-align: middle;"><input ng-model="alias.selected" type="checkbox"/></td>
-          <td class="shrink clickable-td" ng-click="aliasDetail(alias.id);" style="color: Maroon;">
+          <td class="text-nowrap align-middle" style="vertical-align: middle;"><input ng-model="alias.selected" type="checkbox"/></td>
+          <td class="text-nowrap align-middle clickable-td" ng-click="aliasDetail(alias.id);" style="color: Maroon;">
             <span style="font-family: monospace;"><strong>{{alias.id}}</strong></span>
           </td>
-          <td class="shrink clickable-td" ng-click="aliasDetail(alias.id);" style="color: Maroon;">
+          <td class="text-nowrap align-middle clickable-td" ng-click="aliasDetail(alias.id);" style="color: Maroon;">
             <span style="font-family: monospace;"><strong>{{alias.address}}</strong></span>
           </td>
-          <td class="shrink" style="background-color: {{alias.color || 'transparent'}};">
+          <td class="text-nowrap align-middle" style="background-color: {{alias.color || 'transparent'}};">
             <span style="color: {{ alias.color ? 'white' : 'black' }};"><strong>{{alias.color}}</strong></span>
-          <td class="shrink">
+          <td class="text-nowrap align-middle">
               <span ng-if="alias.icon" class="fa-stack fa-lg fa-fw" style="color: {{alias.color || 'transparent'}};">
                 <i class="fa fa-circle fa-stack-2x"></i>
                 <i class="fa fa-{{alias.icon}} fa-stack-1x fa-inverse"></i>
               </span>
             <span style="vertical-align: middle;">{{alias.icon}}</span>
           </td>
-          <td class="shrink"><strong>{{alias.agency || ''}}</strong></td>
-          <td class="shrink"><i class="fa fa-circle text-success" ng-if="alias.ignore == 0"></i><i
+          <td class="text-nowrap align-middle"><strong>{{alias.agency || ''}}</strong></td>
+          <td class="text-nowrap align-middle"><i class="fa fa-circle text-success" ng-if="alias.ignore == 0"></i><i
                   class="fa fa-exclamation-circle text-danger" ng-if="alias.ignore == 1"></i></td>
-          <td class="expand clickable-td" ng-click="aliasDetail(alias.id);" style="color: Maroon;">{{alias.alias ||
+          <td class="align-middle clickable-td" ng-click="aliasDetail(alias.id);" style="color: Maroon;">{{alias.alias ||
             ''}}
           </td>
-          <td class="shrink clickable-td" ng-click="aliasMessages(alias.id);"><i
+          <td class="text-nowrap align-middle clickable-td" ng-click="aliasMessages(alias.id);"><i
                   class="glyphicon glyphicon-filter"></i></td>
         </tbody>
       </table>

@@ -1,12 +1,12 @@
+$primary: Maroon;
+$secondary: #f9f9f9;
+
 $navbar-padding-y: 0.3rem;
+$font-size-base: 0.8rem;
 
 @import "bootswatch/dist/materia/variables";
 @import "bootstrap/scss/bootstrap";
 @import "bootswatch/dist/materia/bootswatch";
 
-body {
-  padding-top: 3rem;
-}
-
-// @import 'app';
+@import 'app';
 // @import 'textAngular';
