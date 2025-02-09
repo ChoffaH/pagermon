@@ -22,6 +22,10 @@ footer {
     box-shadow: 0px -1px 2px 0px rgba(0,0,0,0.3);
 }
 
+.cursor-pointer {
+    cursor: pointer;
+}
+
 // Loading spinner
 .loading {
     pointer-events: all;
@@ -123,6 +127,16 @@ color-picker .color-picker-input-wrapper {
 
     span {
         width: 20px;
+    }
+}
+
+// Font Awesome modal
+.fa-modal-icon {
+    width: 60px;
+    height: 60px;
+
+    &:hover {
+        background-color:#ffffe0;
     }
 }
 

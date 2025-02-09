@@ -1,91 +1,90 @@
 <!-- FontAwesome Helper Modal -->
-<style>
-  .faHelperBlock{
-    display:inline-block;
-    text-align:center;
-    width:60px;
-    padding:10px 0;
-    height:60px;
-    border-radius:10px;
-    cursor:pointer;
-  }
-  .faHelperBlock:hover {
-    background-color:#ffffe0;
-  }
-  .faHelperIcon {
-    font-size:24pt;
-  }
-</style>
-
-<div class="modal fade faHelperModal" tabindex="-1" role="dialog" aria-labelledby="faHelperModalLabel" aria-hidden="true">
-  <div class="modal-dialog modal-dialog-scrollable modal-lg">
+<div id="faHelperModal" class="modal modal-lg fade" tabindex="-1" role="dialog" aria-labelledby="faHelperModalLabel">
+  <div class="modal-dialog modal-dialog-scrollable">
     <div class="modal-content">
-      <div class="modal-header" style="padding: 5px 15px;border-bottom: 1px solid #dddddd;">
-        <span style="font-size:20px;" class="modal-title">Select Alias Icon:</span>
-        <button type="button" class="close" data-dismiss="modal" aria-label="Close" style="padding: 5px;">
-          <span aria-hidden="true">&times;</span>
-        </button>
+      <div class="modal-header">
+        <span id="faHelperModalLabel" class="modal-title fs-3 text-nowrap me-2">Select Alias Icon</span>
         <div class="input-group">
-          <span class="input-group-addon"><i class="fa fa-filter"></i></span>
+          <span class="input-group-text me-2">
+            <i class="fa fa-filter"></i>
+          </span>
           <input id="faSearch" type="text" class="form-control" name="faSearch" placeholder="Filter" ng-model="faSearch">
         </div>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
       </div>
-      <div class="modal-body" style="overflow-y: auto;height: calc(100vh - 215px);" id="faHelperBody">
-	    <div ng-repeat="faIcon in faIcons | filter: faSearch" class="faHelperBlock" title="{{faIcon}}" onclick="setFaIcon(this);" onmouseover="showFaName(this);" onmouseleave="document.getElementById('faPreview').innerText = '';" data-dismiss="modal"><i class="faHelperIcon fas fa-{{faIcon}}"></i></div>
+      <div class="modal-body d-flex flex-wrap justify-content-center" ng-init="modal.faIconPreview = ''">
+        <div ng-repeat="faIcon in faIcons | filter: faSearch"
+            class="fa-modal-icon d-inline-flex align-items-center justify-content-center cursor-pointer"
+            title="{{faIcon}}" ng-click="alias.icon = faIcon"
+            ng-mouseover="modal.faIconPreview = faIcon" ng-mouseleave="modal.faIconPreview = ''"
+            data-bs-dismiss="modal">
+          <i class="fas fa-{{faIcon}} fs-1"></i>
+        </div>
       </div>
       <div class="modal-footer">
-		<span id="faPreview" style="font-size:16px;padding-right: 15px;" class="modal-title"></span>
-        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+		    <span id="faPreview" class="fs-5 pe-3">{{modal.faIconPreview}}</span>
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
       </div>
     </div>
   </div>
 </div>
 
 <!-- Alias Template Modal -->
-<style>.aliasTemplateBlock{display:inline-block;text-align:center;width:60px;padding:10px 0;height:60px;border-radius:10px;cursor:pointer}.aliasTemplateBlock:hover{background-color:#ffffe0}.aliasTemplateIcon{font-size:24pt}</style>
-<div class="modal fade aliasTemplateModal" tabindex="-1" role="dialog" aria-labelledby="aliasTemplateModalLabel" aria-hidden="true">
-  <div class="modal-dialog modal-dialog-scrollable" style="">
+<div id="aliasTemplateModal" class="modal modal-lg fade" tabindex="-1" role="dialog" aria-labelledby="aliasTemplateModalLabel">
+  <div class="modal-dialog modal-dialog-scrollable">
     <div class="modal-content">
-      <div class="modal-header" style="padding: 5px 15px;border-bottom: 1px solid #dddddd;">
-        <span style="font-size:20px;" class="modal-title">Select Alias Template:</span>
-        <button type="button" class="close" data-dismiss="modal" aria-label="Close" style="padding: 5px;">
-          <span aria-hidden="true">&times;</span>
-        </button>
+      <div class="modal-header">
+        <span id="aliasTemplateModalLabel" class="modal-title fs-3 text-nowrap me-2">Select Alias Template</span>
         <div class="input-group">
-          <span class="input-group-addon"><i class="fa fa-filter"></i></span>
+          <span class="input-group-text me-2">
+            <i class="fa fa-filter"></i>
+          </span>
           <input id="search" type="text" class="form-control" name="search" placeholder="Filter" ng-model="search">
         </div>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
       </div>
-      <div class="modal-body" style="overflow-y: auto;height: calc(100vh - 215px);padding-top: 0px;" id="aliasTemplateBody">
-		  <table class="table table-sm table-hover table-striped valign">
-			<thead class="thead-default">
-			  <tr>
-				<th style="text-align: center;">Color</th>
-				<th style="text-align: center;">Icon</th>
-				<th style="text-align: center;">Agency</th>
-				<th style="text-align: center;">Filter</th>
-				<th style="text-align: center;">Name</th>
-			  </tr>
-			</thead>
-			<tbody>
-			  <tr ng-repeat="template in settings.aliases.templates | filter: search track by $index">
-				<td class="text-nowrap align-middle clickable-td" onclick="setAliasTemplate(this);" data-dismiss="modal" style="background-color: {{template.color || 'transparent'}};">
-				  <span style="color: {{ template.color ? 'white' : 'black' }};"><strong>{{template.color}}</strong></span>
-				<td class="text-nowrap align-middle clickable-td" onclick="setAliasTemplate(this);" data-dismiss="modal">
-				  <span ng-if="template.icon" class="fa-stack fa-lg fa-fw" style="color: {{template.color || 'transparent'}};">
-					<i class="fa fa-circle fa-stack-2x"></i>
-					<i class="fa fa-{{template.icon}} fa-stack-1x fa-inverse"></i>
-				  </span>
-				  <span style="vertical-align: middle;">{{template.icon}}</span>
-				</td>
-				<td class="text-nowrap align-middle clickable-td" onclick="setAliasTemplate(this);" data-dismiss="modal"><strong>{{template.agency || ''}}</strong></td>
-				<td class="text-nowrap align-middle clickable-td" onclick="setAliasTemplate(this);" data-dismiss="modal"><i ng-if="!template.filter" class="fa fa-circle text-success"></i><i ng-if="template.filter" class="fa fa-exclamation-circle text-danger"></i></td>
-				<td class="align-middle w-100 clickable-td" onclick="setAliasTemplate(this);" data-dismiss="modal" style="color: Maroon;">{{template.name}}</td>
-			</tbody>
-		  </table>
+      <div class="modal-body">
+        <table class="table table-sm table-hover table-striped">
+          <thead class="thead-default">
+            <tr>
+              <th>Color</th>
+              <th>Icon</th>
+              <th>Agency</th>
+              <th>Filter</th>
+              <th>Name</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr ng-repeat="template in settings.aliases.templates | filter: search track by $index" 
+                ng-click="applyTemplate(template)" class="cursor-pointer" data-bs-dismiss="modal">
+              <td class="text-nowrap align-middle" style="background-color: {{template.color || 'transparent'}};">
+                <span style="color: {{ template.color ? 'white' : 'black' }};">
+                  <strong>{{template.color}}</strong>
+                </span>
+              </td>
+              <td class="text-nowrap align-middle">
+                <span ng-if="template.icon" class="fa-stack fa-lg fa-fw" style="color: {{template.color || 'transparent'}};">
+                  <i class="fa fa-circle fa-stack-2x"></i>
+                  <i class="fa fa-{{template.icon}} fa-stack-1x fa-inverse"></i>
+                </span>
+                <span class="align-middle">{{template.icon}}</span>
+              </td>
+              <td class="text-nowrap align-middle">
+                <strong>{{template.agency || ''}}</strong>
+              </td>
+              <td class="text-nowrap text-center align-middle">
+                <i ng-if="!template.filter" class="fa fa-circle text-success"></i>
+                <i ng-if="template.filter" class="fa fa-exclamation-circle text-danger"></i>
+              </td>
+              <td class="text-primary align-middle w-100">
+                {{template.name}}
+              </td>
+            </tr>
+          </tbody>
+        </table>
       </div>
       <div class="modal-footer">
-        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
       </div>
     </div>
   </div>
@@ -102,7 +101,7 @@
 
 <div class="row justify-content-center pt-4">
   <div>
-    <h4 style="padding-left: 15px;">
+    <h4 class="ps-3">
       <a href="/admin/">Admin</a> / <a href="/admin/aliases/">Aliases</a> / {{alias.id || 'New'}} {{alias.newMessage}}
     </h4>
     <hr />
@@ -116,26 +115,34 @@
       Aliases with a full 7 digit capcode will be used first, followed by those with one wildcard, and so on.<br />
       Those that start with a wildcard will always be ordered last, and thus are only matched with a message if no other alias matches.
     </p>
+    <hr />
 
-    <div class="row g-3 justify-content-end align-items-center" ng-class="!alias.address || existingAddress ? 'has-error' : 'has-success'">
-      <div class="col-3 col-sm-2">
-        <label for="alias.address" class="float-end">Address</label>
+    <div ng-class="!alias.address || existingAddress ? 'has-error' : 'has-success'">
+      <div class="row g-3 justify-content-end align-items-center">
+        <div class="col-3 col-sm-2">
+          <label for="alias.address" class="float-end">Address</label>
+        </div>
+        <div class="col-9 col-sm-10">
+          <input class="form-control" type="text" name="alias.address" ng-model="alias.address" ng-change="checkAddress()" ng-model-options="{updateOn: 'blur'}" required>
+        </div>
       </div>
-      <div class="col-9 col-sm-10">
-        <input class="form-control" type="text" name="alias.address" ng-model="alias.address" ng-change="checkAddress()" ng-model-options="{updateOn: 'blur'}" required>
-        <span class="form-text">
-          Capcode address matches based on SQL wildcards - % means 0 or more of any character, _ means one of any character.<br />
-          For example:<br />
-          '%200%' will match messages from '0000200', '2009999', or '0002001'<br />
-          '0200___' will match '0200123', but not '0020012'.
-        </span>
-        <span ng-if="existingAddress" class="form-text text-danger">Address already exists!</span>
-        <i ng-if="aliasLoading" class="fa fa-refresh fa-spin fa-fw" aria-hidden="true"></i>
-        <div ng-if="aliasLoading" class="btn-group float-end" role="group" aria-label="Replace existing alias?">
-          <button type="button" ng-click="newButton(existingID)" class="btn btn-danger">Replace Existing</button>
-          <button type="button" ng-click="alias.address = alias.originalAddress; checkAddress()" class="btn btn-danger">
-            Reset<span ng-if="alias.originalAddress"> to {{alias.originalAddress}}</span>
-          </button>
+
+      <div class="row justify-content-end mb-3">
+        <div class="col-9 col-sm-10">
+          <i ng-if="aliasLoading" class="fa fa-refresh fa-spin fa-fw" aria-hidden="true"></i>
+          <span ng-if="existingAddress" class="form-text text-danger">Address already exists!</span>
+          <div ng-if="aliasLoading" class="btn-group float-end" role="group" aria-label="Replace existing alias?">
+            <button type="button" ng-click="newButton(existingID)" class="btn btn-danger">Replace Existing</button>
+            <button type="button" ng-click="alias.address = alias.originalAddress; checkAddress()" class="btn btn-danger">
+              Reset<span ng-if="alias.originalAddress"> to {{alias.originalAddress}}</span>
+            </button>
+          </div>
+          <div class="form-text">
+            Capcode address matches based on SQL wildcards - % means 0 or more of any character, _ means one of any character.<br />
+            For example:<br />
+            '%200%' will match messages from '0000200', '2009999', or '0002001'<br />
+            '0200___' will match '0200123', but not '0020012'.
+          </div>
         </div>
       </div>
     </div>
@@ -147,7 +154,7 @@
       <div class="col-9 col-sm-10">
         <div class="input-group">
           <input type="text" class="form-control" name="alias.agency" id="aliasAgency" ng-model="alias.agency" required>
-          <button type="button" class="btn btn-primary" data-toggle="modal" data-target=".aliasTemplateModal">TEMPLATES</button>
+          <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#aliasTemplateModal">Templates</button>
         </div>
         <span class="form-text">Agency or a high level group for aliases.</span>
       </div>
@@ -166,7 +173,7 @@
             </span>
           </span>
           <input type="text" class="form-control" name="alias.icon" ng-model="alias.icon" required>
-          <button type="button" class="btn btn-primary" data-toggle="modal" data-target=".faHelperModal">PICK</button>
+          <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#faHelperModal">Pick</button>
         </div>
         <span class="form-text">Fontawesome icon to display with the alias.</span>
       </div>
@@ -205,11 +212,12 @@
       </div>
     </div>
 
-
     <h5>Plugins</h5>
+    <hr />
+
     <div class="plugin-group mb-3" ng-repeat="plugin in plugins">
       <div ng-if="settings.plugins[plugin.name].enable">
-        <div class="ms-5">
+        <div>
           <h6>{{plugin.name}}</h6>
           <p><em ng-bind-html="plugin.description"></em></p>
         </div>
@@ -257,38 +265,3 @@
     </div>
   </form>
 </div>
-
-<script>
-  //FontAwesome Helper Set Function
-  function setFaIcon(element){
-    var iconName = angular.element(element).scope().faIcon;
-    document.getElementById('aliasIcon').value = iconName;
-    angular.element(document.getElementById('aliasIcon')).triggerHandler('change');
-  }
-
-  //FontAwesome Helper Preview Function
-  function showFaName(element){
-    document.getElementById('faPreview').innerText = angular.element(element).scope().faIcon;
-  }
-
-  //Alias Template Set Function
-  function setAliasTemplate(element){
-    var thisTemplate = angular.element(element).scope().template;
-    document.getElementById('aliasAgency').value = thisTemplate.agency;
-    angular.element(document.getElementById('aliasAgency')).triggerHandler('change');
-    document.getElementById('aliasIcon').value = thisTemplate.icon;
-    angular.element(document.getElementById('aliasIcon')).triggerHandler('change');
-	
-    document.querySelector('.color-picker-input').value = thisTemplate.color;
-    angular.element(document.querySelector('.color-picker-input')).triggerHandler('change');
-	
-    if(thisTemplate.filter){
-      document.getElementById('aliasFilter').checked = true;
-      angular.element(document.getElementById('aliasFilter')).scope().alias.ignore = 1;
-    } else {
-      document.getElementById('aliasFilter').checked = false;
-      angular.element(document.getElementById('aliasFilter')).scope().alias.ignore = 0;
-    }
-    angular.element(document.getElementById('aliasFilter')).triggerHandler('change');
-  }
-</script>
