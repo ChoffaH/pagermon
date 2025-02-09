@@ -26,68 +26,64 @@
 </div>
 
 <div class="row">
-  <div>
-    <div>
-      <table class="table table-sm table-hover table-striped">
-        <thead class="thead-default">
-          <tr>
-            <th></th>
-            <th class="text-secondary">ID</th>
-            <th class="text-secondary">Address</th>
-            <th class="text-secondary">Color</th>
-            <th class="text-secondary">Icon</th>
-            <th class="text-secondary">Agency</th>
-            <th class="text-secondary">Filter</th>
-            <th class="text-secondary">Alias</th>
-            <th class="text-secondary">Show messages</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr ng-repeat="alias in aliases | filter: search">
-            <!-- TODO: Add links to filters -->
-            <td class="text-nowrap align-middle">
-              <input type="checkbox" ng-model="alias.selected" class="form-check-input" />
-            </td>
-            <td class="text-primary text-nowrap align-middle clickable-td" ng-click="aliasDetail(alias.id);">
-              <span style="font-family: monospace;">
-                <strong>{{alias.id}}</strong>
-              </span>
-            </td>
-            <td class="text-primary text-nowrap align-middle clickable-td" ng-click="aliasDetail(alias.id);">
-              <span style="font-family: monospace;">
-                <strong>{{alias.address}}</strong>
-              </span>
-            </td>
-            <td class="text-nowrap align-middle" style="background-color: {{alias.color || 'transparent'}};">
-              <span style="color: {{ alias.color ? 'white' : 'black' }};">
-                <strong>{{alias.color}}</strong>
-              </span>
-            </td>
-            <td class="text-secondary text-nowrap align-middle">
-              <span ng-if="alias.icon" class="fa-stack fa-lg fa-fw" style="color: {{alias.color || 'transparent'}};">
-                <i class="fa fa-circle fa-stack-2x"></i>
-                <i class="fa fa-{{alias.icon}} fa-stack-1x fa-inverse"></i>
-              </span>
-              <span class="align-middle">{{alias.icon}}</span>
-            </td>
-            <td class="text-secondary text-nowrap align-middle">
-              <strong>{{alias.agency || ''}}</strong>
-            </td>
-            <td class="text-nowrap align-middle">
-              <i class="fa fa-circle text-success" ng-if="alias.ignore == 0"></i>
-              <i class="fa fa-exclamation-circle text-danger" ng-if="alias.ignore == 1"></i>
-            </td>
-            <td class="text-primary align-middle w-100 clickable-td" ng-click="aliasDetail(alias.id);">
-              {{alias.alias || ''}}
-            </td>
-            <td class="text-nowrap align-middle text-center clickable-td" ng-click="aliasMessages(alias.id);">
-              <i class="fa fa-filter"></i>
-            </td>
-          </tr>
-        </tbody>
-      </table>
-    </div>
-  </div>
+  <table class="table table-sm table-hover table-striped">
+    <thead class="thead-default">
+      <tr>
+        <th></th>
+        <th class="text-secondary">ID</th>
+        <th class="text-secondary">Address</th>
+        <th class="text-secondary">Color</th>
+        <th class="text-secondary">Icon</th>
+        <th class="text-secondary">Agency</th>
+        <th class="text-secondary">Filter</th>
+        <th class="text-secondary">Alias</th>
+        <th class="text-secondary">Show messages</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr ng-repeat="alias in aliases | filter: search" ng-click="aliasDetail(alias.id)" class="cursor-pointer">
+        <!-- TODO: Add links to filters -->
+        <td class="text-nowrap align-middle">
+          <input type="checkbox" ng-model="alias.selected" class="form-check-input" ng-click="$event.stopPropagation()" />
+        </td>
+        <td class="text-primary text-nowrap align-middle">
+          <span style="font-family: monospace;">
+            <strong>{{alias.id}}</strong>
+          </span>
+        </td>
+        <td class="text-primary text-nowrap align-middle">
+          <span style="font-family: monospace;">
+            <strong>{{alias.address}}</strong>
+          </span>
+        </td>
+        <td class="text-nowrap align-middle" style="background-color: {{alias.color || 'transparent'}};">
+          <span style="color: {{ alias.color ? 'white' : 'black' }};">
+            <strong>{{alias.color}}</strong>
+          </span>
+        </td>
+        <td class="text-secondary text-nowrap align-middle">
+          <span ng-if="alias.icon" class="fa-stack fa-lg fa-fw" style="color: {{alias.color || 'transparent'}};">
+            <i class="fa fa-circle fa-stack-2x"></i>
+            <i class="fa fa-{{alias.icon}} fa-stack-1x fa-inverse"></i>
+          </span>
+          <span class="align-middle">{{alias.icon}}</span>
+        </td>
+        <td class="text-secondary text-nowrap align-middle">
+          <strong>{{alias.agency || ''}}</strong>
+        </td>
+        <td class="text-nowrap align-middle text-center">
+          <i class="fa fa-circle text-success" ng-if="alias.ignore == 0"></i>
+          <i class="fa fa-exclamation-circle text-danger" ng-if="alias.ignore == 1"></i>
+        </td>
+        <td class="text-primary align-middle w-100">
+          {{alias.alias || ''}}
+        </td>
+        <td class="text-nowrap align-middle text-center clickable-td" ng-click="aliasMessages(alias.id); $event.stopPropagation();">
+          <i class="fa fa-filter"></i>
+        </td>
+      </tr>
+    </tbody>
+  </table>
 </div>
 
 <div class="btn-group-vertical">
