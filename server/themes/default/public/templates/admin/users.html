@@ -1,69 +1,82 @@
-<div class="row" style="padding-top: 11px;">
+<div ng-if="loading" class="loading">
+  <i class="fa fa-spinner fa-spin"></i>
 </div>
-<div ng-if="loading" class="loading"><i class="fa fa-spinner fa-spin"></i></div>
-<div class="alert {{alertMessage.type}} alert-dismissable alert-fixed fade in" ng-if="alertMessage.show">
-  <button type="button" class="close" data-dismiss="alert" aria-label="Close" ng-click="alertMessage.show = false">&times;</button>
-  <strong>{{alertMessage.text}}</strong>
-</div>
-<div class="row" style="padding-top: 10px">
-  <div class="col-sm-6 col-xs-12">
-          <h4 style="padding-left: 15px;"><a href="/admin/">Admin</a> / Users</div>
 
-  <div class="col-xs-12">
-          <hr />
-      <div class="input-group">
-        <span class="input-group-addon"><i class="fa fa-filter"></i></span>
-        <input id="search" type="text" class="form-control" name="search" placeholder="Filter" ng-model="search">
-      </div>
+
+<div class="alert {{alertMessage.type}} alert-dismissible alert-fixed" role="alert" ng-if="alertMessage.show">
+  <strong>{{alertMessage.text}}</strong>
+  <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close" ng-click="alertMessage.show = false"></button>
+</div>
+
+<div class="row justify-content-center pt-4">
+  <div>
+    <h4 class="ps-3">
+      <a href="/admin/">Admin</a> / Users
+    </h4>
+    <hr />
+  </div>
+
+  <div>
+    <div class="input-group">
+      <span class="input-group-text me-2">
+        <i class="fa fa-filter"></i>
+      </span>
+      <input type="text" class="form-control" name="search" placeholder="Filter" ng-model="search">
     </div>
+  </div>
 </div>
 
 <div class="row">
-    <div class="col-xs-12">
-    <p></p>
-    <div class="">
-      <table class="table table-sm table-hover table-striped valign">
-        <thead class="thead-default">
-          <tr>
-            <th></th>
-            <th style="text-align: center;">ID</th>
-            <th style="text-align: center;">Username</th>
-            <th style="text-align: center;">Given Name</th>
-            <th style="text-align: center;">Surname</th>
-            <th style="text-align: center;">Email</th>
-            <th style="text-align: center;">Role</th>
-            <th style="text-align: center;">Status</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr ng-repeat="user in users | filter: search">
-            <td class="text-nowrap align-middle" style="vertical-align: middle;"><input type="checkbox" ng-model="user.selected" /></td>
-            <td class="text-nowrap align-middle clickable-td" style="color: Maroon;" ng-click="userDetail(user.id);">
-              <span style="font-family: monospace;"><strong>{{user.id}}</strong></span>
-            </td>
-            <td class="text-nowrap align-middle clickable-td" style="color: Maroon;" ng-click="userDetail(user.id);">
-              <span style="font-family: monospace;"><strong>{{user.username}}</strong></span>
-            </td>
-            <td class="text-nowrap align-middle clickable-td" style="color: Maroon;" ng-click="userDetail(user.id);">
-              <span style="font-family: monospace;"><strong>{{user.givenname}}</strong></span>
-            </td>
-            <td class="text-nowrap align-middle clickable-td" style="color: Maroon;" ng-click="userDetail(user.id);">
-              <span style="font-family: monospace;"><strong>{{user.surname}}</strong></span>
-            </td>
-            <td class="text-nowrap align-middle clickable-td" style="color: Maroon;" ng-click="userDetail(user.id);">
-              <span style="font-family: monospace;"><strong>{{user.email}}</strong></span>
-            </td>
-            <td class="text-nowrap align-middle clickable-td" style="color: Maroon;" ng-click="userDetail(user.id);">
-              <span style="font-family: monospace;"><strong>{{user.role}}</strong></span>
-            </td>
-            <td class="text-nowrap align-middle clickable-td" style="color: Maroon;" ng-click="userDetail(user.id);">
-              <span style="font-family: monospace;"><strong>{{user.status}}</strong></span>
-            </td>
-        </tbody>
-      </table>
-    </div>
-  </div>
-<div class="btn-group-vertical" id="buttons-management">
-  <button type="button" ng-disabled="!userSelected()" ng-click="userDelete()" class="btn btn-danger ">Delete Selected</button>
-  <button type="button" ng-click="userDetail('new');" class="btn btn-success ">Add New</button>
+  <table class="table table-sm table-hover table-striped">
+    <thead>
+      <tr>
+        <th></th>
+        <th>ID</th>
+        <th>Username</th>
+        <th>Given Name</th>
+        <th>Surname</th>
+        <th>Email</th>
+        <th>Role</th>
+        <th>Status</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr ng-repeat="user in users | filter: search" ng-click="userDetail(user.id);" class="cursor-pointer">
+        <td class="text-nowrap align-middle" style="vertical-align: middle;">
+          <input type="checkbox" class="form-check-input" ng-model="user.selected" ng-click="$event.stopPropagation()" />
+        </td>
+        <td class="text-primary align-middle">
+          <span style="font-family: monospace;"><strong>{{user.id}}</strong></span>
+        </td>
+        <td class="text-primary text-nowrap align-middle" >
+          <span style="font-family: monospace;"><strong>{{user.username}}</strong></span>
+        </td>
+        <td class="text-primary text-nowrap align-middle">
+          <span style="font-family: monospace;"><strong>{{user.givenname}}</strong></span>
+        </td>
+        <td class="text-primary text-nowrap align-middle">
+          <span style="font-family: monospace;"><strong>{{user.surname}}</strong></span>
+        </td>
+        <td class="text-primary text-nowrap align-middle">
+          <span style="font-family: monospace;"><strong>{{user.email}}</strong></span>
+        </td>
+        <td class="text-primary text-nowrap align-middle">
+          <span style="font-family: monospace;"><strong>{{user.role}}</strong></span>
+        </td>
+        <td class="text-primary text-nowrap align-middle">
+          <span style="font-family: monospace;"><strong>{{user.status}}</strong></span>
+        </td>
+    </tbody>
+  </table>
+</div>
+
+<div class="btn-group-vertical">
+  <button type="button" class="btn btn-success" ng-click="userDetail('new');">
+    <i class="fa fa-plus"></i>
+    <span class="d-none d-sm-inline-block">Add New</span>
+  </button>
+  <button type="button" class="btn btn-danger" ng-disabled="!userSelected()" ng-click="userDelete()">
+    <i class="fa fa-trash"></i>
+    <span class="d-none d-sm-inline-block">Delete Selected</span>
+  </button>
 </div>
