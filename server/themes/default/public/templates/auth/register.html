@@ -12,15 +12,21 @@
     <h4 class="ps-3">Registration</h4>
     <hr />
   </div>
+
   <div>
     <form ng-submit="registerSubmit()" class="form-horizontal" name="user">
       <h5>User Details</h5>
+
       <div class="row g-3 justify-content-end align-items-center" ng-class="!user.username || existingUsername ? 'has-error' : 'has-success'">
         <div class="col-3 col-sm-2">
           <label for="user.username" class="float-end">Username</label>
         </div>
         <div class="col-9 col-sm-10">
           <input class="form-control" type="text" name="user.username" ng-model="user.username" ng-change="checkUsername()" ng-model-options="{updateOn: 'blur'}" required>
+        </div>
+      </div>
+      <div class="row g-3 justify-content-end mb-3">
+        <div class="col-9 col-sm-10">
           <span class="form-text">Minimum Length - 6 Characters</span>
           <span ng-if="existingUsername" class="form-text text-danger">Username already exists!</span>
           <i class="fa fa-refresh fa-spin fa-fw" ng-if="userLoading" aria-hidden="true"></i>
@@ -33,11 +39,15 @@
         </div>
         <div class="col-9 col-sm-10">
           <input class="form-control" type="text" name="user.givenname" ng-model="user.givenname" required>
+        </div>
+      </div>
+      <div class="row g-3 justify-content-end mb-3">
+        <div class="col-9 col-sm-10">
           <span class="form-text">Required</span>
         </div>
       </div>
 
-      <div class="row g-3 justify-content-end align-items-center">
+      <div class="row g-3 justify-content-end align-items-center mb-3">
         <div class="col-3 col-sm-2">
           <label for="user.surname" class="float-end">Surname</label>
         </div>
@@ -46,24 +56,32 @@
         </div>
       </div>
 
-      <div class="row g-3 justify-content-end align-items-center mb-3" ng-class="!user.email || existingEmail ? 'has-error' : 'has-success'">
+      <div class="row g-3 justify-content-end align-items-center" ng-class="!user.email || existingEmail ? 'has-error' : 'has-success'">
         <div class="col-3 col-sm-2">
           <label for="user.email" class="float-end">Email Address</label>
         </div>
         <div class="col-9 col-sm-10">
           <input class="form-control" type="email" name="user.email" ng-model="user.email" ng-change="checkEmail()" ng-model-options="{updateOn: 'blur'}" required>
+        </div>
+      </div>
+      <div class="row g-3 justify-content-end mb-3">
+        <div class="col-9 col-sm-10">
           <span class="form-text">Required</span>
           <span ng-if="existingEmail" class="form-text text-danger">Email already exists!</span>
           <i class="fa fa-refresh fa-spin fa-fw" ng-if="userLoading" aria-hidden="true"></i>
         </div>
       </div>
 
-      <div class="row g-3 justify-content-end align-items-center mb-3" ng-class="!user.password ? 'has-error' : 'has-success'">
+      <div class="row g-3 justify-content-end align-items-center" ng-class="!user.password ? 'has-error' : 'has-success'">
         <div class="col-3 col-sm-2">
           <label for="user.password" class="float-end">Password</label>
         </div>
         <div class="col-9 col-sm-10">
           <input class="form-control" type="password" name="user.password" ng-minlength="6" ng-model="user.password" required>
+        </div>
+      </div>
+      <div class="row g-3 justify-content-end mb-3">
+        <div class="col-9 col-sm-10">
           <span class="form-text">Password must be at least 6 characters</span>
         </div>
       </div>
