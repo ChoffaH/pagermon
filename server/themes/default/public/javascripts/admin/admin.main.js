@@ -788,17 +788,8 @@ angular.module('app', ['ngRoute', 'ngResource', 'ngSanitize', 'angular-uuid', 'u
             id = "new";
           }
           Api.AliasDetail.save({ id: id }, $scope.alias).$promise.then(function (response) {
-            console.log(response);
             if (response.status == 'ok') {
-              $scope.alertMessage.text = 'Alias saved!';
-              $scope.alertMessage.type = 'alert-success';
-              $scope.alertMessage.show = true;
-              $timeout(function () { $scope.alertMessage.show = false; }, 3000);
-              $scope.loading = false;
-              if ($scope.isNew) {
-                $scope.aliasRefreshRequired = 1;
-                $location.url('/aliases/' + response.id);
-              }
+                $location.url('/aliases');
             } else {
               $scope.alertMessage.text = 'Error saving alias: ' + response;
               $scope.alertMessage.type = 'alert-danger';

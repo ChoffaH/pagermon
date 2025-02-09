@@ -70,11 +70,14 @@ td.clickable-td:hover, td.clickable-td:focus, td.clickable-td:focus:hover {
 .btn-group-vertical {
     text-align: center;
     position: fixed;
-    bottom: calc($footer-height + 10px);
-    right: 50px;
+    bottom: 10px;
+    right: 10px;
+    z-index: 100;
 
     @include media-breakpoint-up(md) {
-        width: 225px;
+        bottom: calc($footer-height + 10px);
+        right: 50px;
+        width: 190px;
     }
 }
 
@@ -109,6 +112,17 @@ body,
         margin-top:-33px;
         margin-left:-13px;
         transition:color .2s;
+    }
+}
+
+// Color picker
+color-picker .color-picker-input-wrapper {
+    input {
+        width: 100% !important;
+    }
+
+    span {
+        width: 20px;
     }
 }
 

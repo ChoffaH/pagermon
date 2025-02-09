@@ -50,9 +50,9 @@
         </div>
         <div class="col-9 col-sm-10">
           <input class="form-control" type="text" name="user.email" ng-model="user.email" ng-change="userdupeCheck()" ng-model-options="{updateOn: 'blur'}" required>
-          <span ng-if="userLoading" class="fa fa-refresh fa-spin fa-2x fa-fw form-control-feedback" aria-hidden="true"></span>
           <span class="form-text">Required</span>
-          <span ng-if="existingEmail" class="form-text text-danger">Email already exists! </span>
+          <span ng-if="existingEmail" class="form-text text-danger">Email already exists!</span>
+          <i ng-if="userLoading" class="fa fa-refresh fa-spin fa-fw" aria-hidden="true"></i>
         </div>
       </div>
 
