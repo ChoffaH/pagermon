@@ -9,12 +9,19 @@
 
 <div class="row justify-content-center pt-4">
   <div>
-    <h4 class="ps-3">Registration</h4>
+    <h3 class="ps-3">Registration</h3>
     <hr />
   </div>
 
+  <div class="d-flex justify-content-end ms-1 me-1 mb-2">
+    <button type="submit" class="btn btn-sm btn-outline-success" ng-click="registerSubmit()">
+      <i class="fa fa-save"></i>
+      <span class="d-none d-sm-inline-block">Save</span>
+    </button>
+  </div>
+
   <div>
-    <form ng-submit="registerSubmit()" class="form-horizontal" name="user">
+    <form name="user">
       <h5>User Details</h5>
 
       <div class="row g-3 justify-content-end align-items-center" ng-class="!user.username || existingUsername ? 'has-error' : 'has-success'">
@@ -84,13 +91,6 @@
         <div class="col-9 col-sm-10">
           <span class="form-text">Password must be at least 6 characters</span>
         </div>
-      </div>
-
-      <div class="btn-group-vertical">
-        <button type="submit" class="btn btn-success">
-          <span class="d-none d-sm-block">Save</span>
-          <i class="fa fa-save d-sm-none"></i>
-        </button>
       </div>
     </form>
   </div>

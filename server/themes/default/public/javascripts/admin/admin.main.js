@@ -891,6 +891,8 @@ angular.module('app', ['ngRoute', 'ngResource', 'ngSanitize', 'angular-uuid', 'u
     // needs cleanup
     .controller('SettingsController', ['$scope', '$routeParams', 'Api', 'uuid', '$uibModal', '$filter', '$timeout', '$sanitize', function ($scope, $routeParams, Api, uuid, $uibModal, $filter, $timeout, $sanitize) {
       $scope.alertMessage = {};
+      $scope.showPassword = false;
+
       Api.Settings.get(null, function(results) {
         if (!results.settings.messages.replaceText)
           results.settings.messages.replaceText = [{}];
@@ -956,12 +958,6 @@ angular.module('app', ['ngRoute', 'ngResource', 'ngSanitize', 'angular-uuid', 'u
           $scope.settings.auth.keys[index].key = key;
         }
       };
-
-      $scope.showPassword = false;
-
-      $scope.toggleShowPassword = function() {
-        $scope.showPassword = !$scope.showPassword;
-      }
 
       $scope.addKey = function () {
         $scope.settings.auth.keys.push({

@@ -9,23 +9,48 @@
 
 <div class="row justify-content-center pt-4">
   <div>
-    <h4 class="ps-3">
+    <h3 class="ps-3">
       <a href="/admin/">Admin</a> / Aliases
-    </h4>
+    </h3>
     <hr />
   </div>
 
-  <div>
-    <div class="input-group">
-      <span class="input-group-text me-2">
-        <i class="fa fa-filter"></i>
-      </span>
-      <input type="text" class="form-control" name="search" placeholder="Filter" ng-model="search">
+  <div class="d-flex justify-content-between align-items-center ms-1 me-1 mb-2">
+    <div class="me-2 w-50">
+      <div class="input-group">
+        <span class="input-group-text me-2">
+          <i class="fa fa-filter"></i>
+        </span>
+        <input type="text" class="form-control" name="search" placeholder="Filter" ng-model="search">
+      </div>
+    </div>
+
+    <div>
+      <button type="button" class="btn btn-sm btn-outline-warning" ng-if="aliasRefreshRequired == 1" ng-click="aliasRefresh();">
+        <i class="fa fa-arrows-rotate"></i>
+        <span class="d-none d-md-inline-block">Refresh</span>
+      </button>
+      <button type="button" class="btn btn-sm btn-outline-success" ng-click="aliasImport();">
+        <i class="fa fa-file-import"></i>
+        <span class="d-none d-md-inline-block">Import</span>
+      </button>
+      <button type="button" class="btn btn-sm btn-outline-success" ng-click="aliasExport();">
+        <i class="fa fa-file-export"></i>
+        <span class="d-none d-md-inline-block">Export</span>
+      </button>
+      <button type="button" class="btn btn-sm btn-outline-success" ng-click="aliasDetail('new');">
+        <i class="fa fa-plus"></i>
+        <span class="d-none d-md-inline-block">Add</span>
+      </button>
+      <button type="button" class="btn btn-sm btn-outline-danger" ng-disabled="!aliasSelected()" ng-click="aliasDelete()">
+        <i class="fa fa-trash"></i>
+        <span class="d-none d-md-inline-block">Delete</span>
+      </button>
     </div>
   </div>
 </div>
 
-<div class="row">
+<div class="row position-relative overflow-auto ms-1 me-1">
   <table class="table table-sm table-hover table-striped">
     <thead class="thead-default">
       <tr>
@@ -37,7 +62,7 @@
         <th class="text-secondary">Agency</th>
         <th class="text-secondary">Filter</th>
         <th class="text-secondary">Alias</th>
-        <th class="text-secondary">Show messages</th>
+        <th class="text-secondary">Show</th>
       </tr>
     </thead>
     <tbody>
@@ -84,27 +109,4 @@
       </tr>
     </tbody>
   </table>
-</div>
-
-<div class="btn-group-vertical">
-  <button ng-if="aliasRefreshRequired == 1" type="button" ng-click="aliasRefresh();" class="btn btn-warning">
-    <i class="fa fa-arrows-rotate"></i>
-    <span class="d-none d-sm-inline-block">Refresh Aliases</span>
-  </button>
-  <button type="button" ng-click="aliasImport();" class="btn btn-success">
-    <i class="fa fa-file-import"></i>
-    <span class="d-none d-sm-inline-block">Import Aliases</span>
-  </button>
-  <button type="button" ng-click="aliasExport();" class="btn btn-success">
-    <i class="fa fa-file-export"></i>
-    <span class="d-none d-sm-inline-block">Export Aliases</span>
-  </button>
-  <button class="btn btn-success " ng-click="aliasDetail('new');" type="button">
-    <i class="fa fa-plus"></i>
-    <span class="d-none d-sm-inline-block">Add New</span>
-  </button>
-  <button type="button" ng-disabled="!aliasSelected()" ng-click="aliasDelete()" class="btn btn-danger">
-    <i class="fa fa-trash"></i>
-    <span class="d-none d-sm-inline-block">Delete Selected</span>
-  </button>
 </div>
