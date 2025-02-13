@@ -8,16 +8,22 @@
 </div>
 
 <div class="row justify-content-center pt-4">
-  <div class="col-xs-12">
+  <div>
     <h3 class="ps-3">Login</h3>
     <hr />
   </div>
 
-  <div class="col-xs-12 col-md-8">
-    <form ng-submit="loginSubmit()" name="login">
-      <input class="form-control mb-3" type="text" name="user.username" ng-model="user.username" placeholder="Username" required>
-      <input class="form-control mb-3" type="password" name="user.password" ng-model="user.password" placeholder="Password" required>
-      <button type="submit" class="btn btn-primary btn-lg">Login</button>
-    </form>
-  </div>
+  <form ng-submit="loginSubmit()" name="login">
+    <div class="mb-3">
+      <label for="username" class="form-label">Username</label>
+      <input type="text" class="form-control" id="username" name="user.username" ng-model="user.username" required>
+    </div>
+
+    <div class="mb-3">
+      <label for="password" class="form-label">Password</label>
+      <input type="password" class="form-control" id="password" name="user.password" ng-model="user.password" required>
+    </div>
+
+    <button type="submit" class="btn btn-primary btn-lg">Login</button>
+  </form>
 </div>

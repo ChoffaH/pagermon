@@ -8,18 +8,24 @@
 </div>
 
 <div class="row justify-content-center pt-4">
-  <div class="col-xs-12">
+  <div>
     <h3 class="ps-3">Reset Password</h3>
     <hr />
   </div>
 
-  <div class="col-xs-12 col-md-8">
-    <form ng-submit="resetSubmit()" name="form">
-      <input type="password" class="form-control mb-3" id="password" name="password" ng-model="password" autofocus=true placeholder="Password" required>
-      <input type="password" class="form-control" id="confirm_password" name="confirm_password" placeholder="Confirm Password"
-          ng-model="confirm_password" required ui-validate=" '$value==password' " ui-validate-watch=" 'password' ">
-      <div class="form-text text-danger" ng-show='form.confirm_password.$error.validator'>Passwords do not match!</div>
-      <button type="submit" ng-disabled="form.confirm_password.$error.validator" class="btn btn-primary mt-3">Submit</button>
-    </form>
-  </div>
+  <form ng-submit="resetSubmit()" name="form">
+    <div class="mb-3">
+      <label class="form-label" for="password">Password</label>
+      <input type="password" class="form-control" id="password" name="password" ng-model="password" autofocus=true required>
+    </div>
+
+    <div>
+      <label class="form-label" for="confirm_password">Confirm Password</label>
+      <input type="password" class="form-control" id="confirm_password" name="confirm_password"
+        ng-model="confirm_password" required ui-validate=" '$value==password' " ui-validate-watch=" 'password' ">
+    </div>
+
+    <div class="form-text text-danger" ng-show='form.confirm_password.$error.validator'>Passwords do not match!</div>
+    <button type="submit" ng-disabled="form.confirm_password.$error.validator" class="btn btn-primary mt-3">Submit</button>
+  </form>
 </div>
