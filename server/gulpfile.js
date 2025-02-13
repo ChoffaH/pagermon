@@ -30,4 +30,4 @@ gulp.task("server", gulp.series("sass", "icons", "node"));
 
 gulp.task("default", parallel("sass:watch", "server"));
 
-gulp.task("build", gulp.series("sass"));
+gulp.task("build", gulp.series("sass", "icons"));

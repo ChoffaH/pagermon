@@ -2,9 +2,11 @@
 #	Build & install packages
 # multistage to save time when building (don't install packages every time)
 #
-FROM slocomptech/bi-node:12 as builder
+FROM slocomptech/bi-node:12 AS builder
 
 COPY package.json /app/
+COPY gulpfile.js /app/
+COPY sass /app/sass
 
 RUN apk add --no-cache --virtual .build-dependencies \
       autoconf \
@@ -18,7 +20,8 @@ RUN apk add --no-cache --virtual .build-dependencies \
       python3 && \
     ln -s /usr/bin/python3 /usr/bin/python && \
     cd /app && \
-    sudo -u ${CONTAINER_USER} -g ${CONTAINER_USER} npm install ${NPM_ARGS}
+    sudo -u ${CONTAINER_USER} -g ${CONTAINER_USER} npm install ${NPM_ARGS} && \
+    npm run build
 
 #
 #	PagerMon image
@@ -29,6 +32,7 @@ FROM slocomptech/bi-node:12
 #	Copy packages from builder
 #
 COPY --from=builder /app/node_modules /app/node_modules
+COPY --from=builder /app//themes/default/public/assets /app/themes/default/public/assets
 
 #
 #	Arguments
