@@ -126,7 +126,7 @@
                     <span class="small" style="color: white; font-family: monospace;"><strong>{{message.address}}</strong></span>
                   </td>
                 <% } %>
-                <td class="text-nowrap align-middle text-secondary clickable-td" ng-if="message.agency"
+                <td class="text-nowrap align-middle text-secondary clickable-td"
                     uib-popover-template="'templates/popover.html'" popover-append-to-body=true
                     popover-animation=false ng-click="popoverEl = 'agency'" popover-trigger="'outsideClick'">
                   <% if (iconsize == 'small') { %>
@@ -138,19 +138,7 @@
                     <i ng-if="message.icon" class="fa fa-{{message.icon}} fa-stack-1x fa-inverse"></i>
                     <i ng-if="!message.icon" class="fa fa-question fa-stack-1x fa-inverse"></i>
                   </span>
-                  <strong style="vertical-align: middle;">{{message.agency || ''}}</strong>
-                </td>
-                <td class="text-nowrap align-middle text-secondary" ng-if="!message.agency">
-                  <% if (iconsize == 'small') { %>
-                  <span class="fa-stack fa-fw" style="color: {{message.color || 'grey'}};">
-                  <% } else { %>
-                  <span class="fa-stack fa-lg fa-fw" style="color: {{message.color || 'grey'}};">
-                  <% } %>
-                    <i class="fa fa-circle fa-stack-2x"></i>
-                    <i ng-if="message.icon" class="fa fa-{{message.icon}} fa-stack-1x fa-inverse"></i>
-                    <i ng-if="!message.icon" class="fa fa-question fa-stack-1x fa-inverse"></i>
-                  </span>
-                  <strong style="vertical-align: middle;"></strong>
+                  <strong>{{message.agency || ''}}</strong>
                 </td>
                 <td class="text-nowrap align-middle text-secondary d-none d-md-table-cell clickable-td" ng-if="user"
                     uib-popover-template="'templates/popover.html'" popover-append-to-body=true
