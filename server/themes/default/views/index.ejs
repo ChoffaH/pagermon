@@ -89,13 +89,13 @@
                   </div>
                 </th>
                 <% if (!hidesource || (login && user.role == 'admin')) { %>
-                  <th class="align-middle text-secondary noMobile noSmall">Src</th>
+                  <th class="align-middle text-secondary d-none d-md-table-cell">Src</th>
                 <% } %>
                 <% if (!hidecapcode || (login && user.role == 'admin')) { %>
-                  <th class="align-middle text-secondary noMobile">Capcode</th>
+                  <th class="align-middle text-secondary d-none d-md-table-cell">Capcode</th>
                 <% } %>
-                <th class="align-middle text-secondary noMobile noSmall"></th>
-                <th class="align-middle text-secondary noMobile noSmall"></th>
+                <th class="align-middle text-secondary"></th>
+                <th class="align-middle text-secondary d-none d-md-table-cell"></th>
                 <th class="align-middle text-secondary">
                   Message
                   <span ng-if="filter || hasQuery" class="border-start p-1">
@@ -108,10 +108,10 @@
             </thead>
             <tbody>
               <tr ng-repeat="message in messages | filter: search">
-                <td class="text-nowrap align-middle text-secondary noMobile noSmall">{{message.date}}</td>
+                <td class="text-nowrap align-middle text-secondary">{{message.date}}</td>
                 <td class="text-nowrap align-middle text-secondary">{{message.time}}</td>
                 <% if (!hidesource || (login && user.role == 'admin')) { %>
-                  <td class="text-nowrap align-middle text-secondary noMobile noSmall clickable-td"
+                  <td class="text-nowrap align-middle text-secondary d-none d-md-table-cell clickable-td"
                       uib-popover-template="'templates/popover.html'" popover-append-to-body=true 
                       popover-animation=false ng-click="popoverEl = 'source'" popover-trigger="'outsideClick'"
                       style="background-color: {{message.color || 'grey'}}; text-align: center;">
@@ -119,7 +119,7 @@
                   </td>
                 <% } %>
                 <% if (!hidecapcode || (login && user.role == 'admin')) { %>
-                  <td class="text-nowrap align-middle text-secondary noMobile noSmall clickable-td"
+                  <td class="text-nowrap align-middle text-secondary d-none d-md-table-cell clickable-td"
                       uib-popover-template="'templates/popover.html'" popover-append-to-body=true
                       popover-animation=false ng-click="popoverEl = 'address'" popover-trigger="'outsideClick'"
                       style="background-color: {{message.color || 'grey'}}; text-align: center;">
@@ -152,12 +152,12 @@
                   </span>
                   <strong style="vertical-align: middle;"></strong>
                 </td>
-                <td class="text-nowrap align-middle text-secondary noMobile clickable-td" ng-if="user"
+                <td class="text-nowrap align-middle text-secondary d-none d-md-table-cell clickable-td" ng-if="user"
                     uib-popover-template="'templates/popover.html'" popover-append-to-body=true
                     popover-animation=false ng-click="popoverEl = 'alias'" popover-trigger="'outsideClick'">
                   <span style="color: Maroon;">{{message.alias || 'Unknown'}}</span>
                 </td>
-                <td class="text-nowrap align-middle text-secondary noMobile" ng-if="!user">
+                <td class="text-nowrap align-middle text-secondary d-none d-md-table-cell" ng-if="!user">
                   <span>{{message.alias || ''}}</span>
                 </td>
                 <td class="align-middle w-100 text-secondary">
