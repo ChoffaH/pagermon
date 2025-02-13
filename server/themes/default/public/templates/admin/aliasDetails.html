@@ -124,7 +124,7 @@
 
   <div>
     <form name="alias">
-      <h5>Alias Details</h5>
+      <h4>Alias Details</h4>
       <p>
         Aliases are ordered so that the closest match takes precedence.<br />
         Aliases with a full 7 digit capcode will be used first, followed by those with one wildcard, and so on.<br />
@@ -132,24 +132,21 @@
       </p>
       <hr />
 
-      <div class="row g-3 justify-content-end align-items-center" ng-class="!alias.address || existingAddress ? 'has-error' : 'has-success'">
-        <div class="col-3 col-sm-2">
-          <label for="alias.address" class="float-end">Address</label>
-        </div>
-        <div class="col-9 col-sm-10">
-          <input class="form-control" type="text" name="alias.address" ng-model="alias.address" ng-change="checkAddress()" ng-model-options="{updateOn: 'blur'}" required>
-        </div>
-      </div>
-      <div class="row g-3 justify-content-end mb-3">
-        <div class="col-9 col-sm-10">
-          <i ng-if="aliasLoading" class="fa fa-refresh fa-spin fa-fw" aria-hidden="true"></i>
-          <span ng-if="existingAddress" class="form-text text-danger">Address already exists!</span>
-          <div ng-if="aliasLoading" class="btn-group float-end" role="group" aria-label="Replace existing alias?">
-            <button type="button" ng-click="newButton(existingID)" class="btn btn-danger">Replace Existing</button>
-            <button type="button" ng-click="alias.address = alias.originalAddress; checkAddress()" class="btn btn-danger">
+      <div class="row mb-3">
+        <label for="alias.address" class="col-sm-2 col-form-label">Address</label>
+        <div class="col-sm-10">
+          <div class="input-group">
+            <input type="text" class="form-control" ng-class="{'is-invalid':!alias.address || existingAddress}" name="alias.address"
+                    ng-model="alias.address" ng-change="checkAddress()" ng-model-options="{updateOn: 'blur'}" required>
+            <button type="button" class="btn btn-sm btn-danger" ng-if="existingAddress" ng-click="newButton(existingID)">
+              Replace Existing
+            </button>
+            <button type="button" class="btn btn-sm btn-danger" ng-if="existingAddress" ng-click="alias.address = alias.originalAddress; checkAddress()">
               Reset<span ng-if="alias.originalAddress"> to {{alias.originalAddress}}</span>
             </button>
           </div>
+          <i ng-if="aliasLoading" class="fa fa-refresh fa-spin fa-fw" aria-hidden="true"></i>
+          <span ng-if="existingAddress" class="form-text text-danger">Address already exists!</span>
           <div class="form-text">
             Capcode address matches based on SQL wildcards - % means 0 or more of any character, _ means one of any character.<br />
             For example:<br />
@@ -159,28 +156,20 @@
         </div>
       </div>
 
-      <div class="row g-3 justify-content-end align-items-center" ng-class="!alias.agency ? 'has-error' : 'has-success'">
-        <div class="col-3 col-sm-2">
-          <label for="alias.agency" class="float-end">Agency</label>
-        </div>
-        <div class="col-9 col-sm-10">
+      <div class="row mb-3">
+        <label for="alias.agency" class="col-sm-2 col-form-label">Agency</label>
+        <div class="col-sm-10">
           <div class="input-group">
-            <input type="text" class="form-control" name="alias.agency" id="aliasAgency" ng-model="alias.agency" required>
+            <input type="text" class="form-control" ng-class="{'is-invalid':!alias.agency}" name="alias.agency" id="aliasAgency" ng-model="alias.agency" required>
             <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#aliasTemplateModal">Templates</button>
           </div>
-        </div>
-      </div>
-      <div class="row g-3 justify-content-end mb-3">
-        <div class="col-9 col-sm-10">
-          <span class="form-text">Agency or a high level group for aliases.</span>
+          <span class="form-text">Agency or a high level group for aliases</span>
         </div>
       </div>
 
-      <div class="row g-3 justify-content-end align-items-center">
-        <div class="col-3 col-sm-2">
-          <label for="alias.icon" class="float-end">Icon</label>
-        </div>
-        <div class="col-9 col-sm-10">
+      <div class="row mb-3">
+        <label for="alias.icon" class="col-sm-2 col-form-label">Icon</label>
+        <div class="col-sm-10">
           <div class="input-group">
             <span class="input-group-text me-2">
               <span class="fa-stack fa-lg fa-fw" style="color: {{alias.color || 'black'}};">
@@ -191,81 +180,60 @@
             <input type="text" class="form-control" name="alias.icon" ng-model="alias.icon" required>
             <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#faHelperModal">Pick</button>
           </div>
-        </div>
-      </div>
-      <div class="row g-3 justify-content-end mb-3">
-        <div class="col-9 col-sm-10">
-          <span class="form-text">Fontawesome icon to display with the alias.</span>
+          <span class="form-text">Fontawesome icon to display with the alias</span>
         </div>
       </div>
 
-      <div class="row g-3 justify-content-end align-items-center">
-        <div class="col-3 col-sm-2">
-          <label for="alias.color" class="float-end">Color</label>
-        </div>
-        <div class="col-9 col-sm-10">
+      <div class="row mb-3">
+        <label for="alias.color" class="col-sm-2 col-form-label">Color</label>
+        <div class="col-sm-10">
           <color-picker ng-model="alias.color" options="colorOptions"></color-picker>
-        </div>
-      </div>
-      <div class="row g-3 justify-content-end mb-3">
-        <div class="col-9 col-sm-10">
           <span class="form-text">HTML color to use for the icon and address. Can be a named color or a # color code.</span>
         </div>
       </div>
 
-      <div class="row g-3 justify-content-end align-items-center" ng-class="!alias.alias ? 'has-error' : 'has-success'">
-        <div class="col-3 col-sm-2">
-          <label for="alias.alias" class="float-end">Alias</label>
-        </div>
-        <div class="col-9 col-sm-10">
-          <input class="form-control" type="text" name="alias.alias" id="aliasName" ng-model="alias.alias" required>
-        </div>
-      </div>
-      <div class="row g-3 justify-content-end mb-3">
-        <div class="col-9 col-sm-10">
-          <span class="form-text">Text description of the alias.</span>
+      <div class="row mb-3">
+        <label for="alias.alias" class="col-sm-2 col-form-label">Alias</label>
+        <div class="col-sm-10">
+          <input type="text" class="form-control" ng-class="{'is-invalid':!alias.alias}" name="alias.alias" id="aliasName" ng-model="alias.alias" required>
+          <span class="form-text">Text description of the alias</span>
         </div>
       </div>
 
-      <div class="row g-3 justify-content-end align-items-center" ng-class="{'has-warning':alias.ignore == 1}">
-        <div class="col-3 col-sm-2">
-          <label for="alias.ignore" class="float-end">Filter Alias</label>
-        </div>
-        <div class="col-9 col-sm-10">
-          <input type="checkbox" class="form-check-input" name="alias.ignore" id="aliasFilter" ng-model="alias.ignore" ng-true-value="1" ng-false-value="0">
-          <label class="form-check-label" for="aliasFilter">
-            Ignore messages matching this alias.
-          </label>
-        </div>
-      </div>
-      <div class="row g-3 justify-content-end mb-3">
-        <div class="col-9 col-sm-10">
-          <div class="form-text">New messages that come in matching this alias are not stored in the database, but existing messages will not be deleted.</div>
+      <div class="row align-items-center mb-3">
+        <label for="alias.ignore" class="col-sm-2 col-form-label">Filter Alias</label>
+        <div class="col-sm-10">
+          <div class="form-check form-switch">
+            <input type="checkbox" class="form-check-input" name="alias.ignore" id="aliasFilter" ng-model="alias.ignore" ng-true-value="1" ng-false-value="0">
+            <label class="form-check-label" for="aliasFilter">
+              Ignore messages matching this alias.
+            </label>
+          </div>
+          <span class="form-text">New messages that come in matching this alias are not stored in the database, but existing messages will not be deleted.</span>
         </div>
       </div>
 
-      <h5>Plugins</h5>
+      <h4>Plugins</h4>
       <hr />
 
       <div class="plugin-group mb-3" ng-repeat="plugin in plugins">
         <div ng-if="settings.plugins[plugin.name].enable">
           <div>
-            <h6>{{plugin.name}}</h6>
+            <h5>{{plugin.name}}</h5>
             <p><em ng-bind-html="plugin.description"></em></p>
           </div>
 
           <div ng-repeat="configItem in plugin.aliasConfig">
-            <div class="row g-3 justify-content-end align-items-center" ng-hide="!alias.pluginconf[plugin.name].enable && configItem.name != 'enable'">
-              <div class="col-3 col-sm-2">
-                <label for="{{plugin.name}}.{{configItem.name}}" class="float-end">{{configItem.label}}</label>
-              </div>
+            <div class="row mb-3" ng-hide="!alias.pluginconf[plugin.name].enable && configItem.name != 'enable'"
+                  ng-class="{'align-items-center': configItem.type == 'checkbox'}">
+              <label for="{{plugin.name}}.{{configItem.name}}" class="col-sm-2 col-form-label">{{configItem.label}}</label>
 
-              <div class="col-9 col-sm-10">
-                <div ng-if="configItem.type == 'checkbox'" class="checkbox">
+              <div class="col-sm-10">
+                <div class="form-check form-switch" ng-if="configItem.type == 'checkbox'" class="checkbox">
                   <input type="checkbox" class="form-check-input" name="{{plugin.name}}.{{configItem.name}}" id="{{plugin.name}}.{{configItem.name}}" ng-model="alias.pluginconf[plugin.name][configItem.name]">
                   <label class="form-check-label" for="{{plugin.name}}.{{configItem.name}}">
                     {{configItem.description}}
-                  </label>  
+                  </label>
                 </div>
                 <div ng-if="configItem.type == 'select'">
                     <select name="{{plugin.name}}.{{configItem.name}}" ng-model="alias.pluginconf[plugin.name][configItem.name]" class="form-control" ng-options="obj.text for obj in configItem.options track by obj.value" ng-disabled="!alias.pluginconf[plugin.name].enable" ng-required="alias.pluginconf[plugin.name].enable && configItem.required"></select>
