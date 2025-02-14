@@ -7,19 +7,29 @@
     <div class="navbar-collapse collapse" id="navbarCollapse">
       <ul class="navbar-nav me-auto">
         <li class="nav-item">
-          <a href="/" class="nav-link link-primary"><span class="fa fa-fw fa-home"></span> Home</a>
+          <a href="/" class="nav-link link-primary">
+            <i class="fa fa-fw fa-home"></i> Home
+          </a>
         </li>
         <% if (login && user.role == 'admin') { %>
           <li class="nav-item dropdown">
-            <a href="#" class="nav-link link-primary dropdown-toggle" data-bs-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">
+            <button type="button" class="nav-link link-primary dropdown-toggle" data-bs-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">
               <span class="fa fa-fw fa-lock"></span> Admin
-            </a>
+            </button>
             <div class="dropdown-menu">
-              <a href="/admin/aliases" class="dropdown-item"><span class="fa fa-fw fa-address-card"></span> Aliases</a>
-              <a href="#" class="dropdown-item disabled"><span class="fa fa-fw fa-inbox"></span> Messages</a>
-              <a href="/admin/users" class="dropdown-item"><span class="fa fa-fw fa-user"></span> Users</a>
+              <a href="/admin/aliases" class="dropdown-item">
+                <i class="fa fa-fw fa-address-card"></i> Aliases
+              </a>
+              <a href="#" class="dropdown-item disabled">
+                <i class="fa fa-fw fa-inbox"></i> Messages
+              </a>
+              <a href="/admin/users" class="dropdown-item">
+                <i class="fa fa-fw fa-user"></i> Users
+              </a>
               <div class="dropdown-divider"></div>
-              <a href="/admin/settings" class="dropdown-item"><span class="fa fa-fw fa-cogs"></span> Settings</a>
+              <a href="/admin/settings" class="dropdown-item">
+                <i class="fa fa-fw fa-cogs"></i> Settings
+              </a>
             </div>
           </li>
         <% } %>
@@ -27,25 +37,35 @@
       <ul class="navbar-nav navbar-right">
         <% if (login) { %>
           <li class="nav-item dropdown">
-            <a href="#" class="nav-link link-primary dropdown-toggle" data-bs-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">
+            <button type="button" class="nav-link link-primary dropdown-toggle" data-bs-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">
               <span class="fa fa-fw fa-user"></span> <%= user.username%>
-            </a>
+            </button>
             <div class="dropdown-menu">
-              <a href="/auth/profile" class="dropdown-item"><span class="fa fa-fw fa-cogs"></span> My Profile</a>
-              <a href="/auth/reset" class="dropdown-item"><span class="fa fa-fw fa-key"></span> Reset Password</a>
+              <a href="/auth/profile" class="dropdown-item">
+                <i class="fa fa-fw fa-cogs"></i> My Profile
+              </a>
+              <a href="/auth/reset" class="dropdown-item">
+                <i class="fa fa-fw fa-key"></i> Reset Password
+              </a>
             </div>
           </li>
           <li class="nav-item">
-            <a href="/auth/logout" class="nav-link link-primary"><span class="fa fa-fw fa-sign-out"></span> Sign Out</a>
+            <a href="/auth/logout" class="nav-link link-primary">
+              <i class="fa fa-fw fa-sign-out"></i> Sign Out
+            </a>
           </li>
         <% } else { %>
         <% if (register) { %>
           <li class="nav-item">
-            <a href="/auth/register" class="nav-link link-primary"><span class="fa fa-fw fa-user"></span> Register</a>
+            <a href="/auth/register" class="nav-link link-primary">
+              <i class="fa fa-fw fa-user"></i> Register
+            </a>
           </li>
         <% } %>
           <li class="nav-item">
-            <a href="/auth/login" class="nav-link link-primary"><span class="fa fa-fw fa-sign-in"></span> Sign In</a>
+            <a href="/auth/login" class="nav-link link-primary">
+              <i class="fa fa-fw fa-sign-in"></i> Sign In
+            </a>
           </li>
         <% } %>
       </ul>
@@ -63,5 +83,11 @@
   $(function () {
     $("#home-body a:contains('Home')").addClass('active');
     $("#admin-body a:contains('Admin')").addClass('active');
+
+    const navbarCollapseElement = document.querySelector('.navbar-collapse')
+    const navbarCollapse = bootstrap.Collapse.getOrCreateInstance(navbarCollapseElement, {toggle: false});
+    $('.navbar a').click(function() {
+      navbarCollapse.hide();
+    });
   });
 </script>
