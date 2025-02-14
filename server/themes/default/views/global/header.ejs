@@ -35,8 +35,16 @@
 <script src="//cdnjs.cloudflare.com/ajax/libs/jquery-cookie/1.4.0/jquery.cookie.min.js"></script>
 <script src="/javascripts/angular-sortable-view.min.js"></script>
 
+<% if (faKey) { %>
+  <script src="//kit.fontawesome.com/<%= faKey %>.js" crossorigin="anonymous"></script>
+<% } %>
+
 <!-- Style -->
-<link rel='stylesheet' href='/assets/css/style.css' />
+<link rel="stylesheet" href="/assets/css/style.css" />
+
+<% if (!faKey) { %>
+  <link rel="stylesheet" href="/assets/css/fa.css" />
+<% } %>
 
 <% if (gaEnable) { %>
   <!-- Global site tag (gtag.js) - Google Analytics -->

@@ -8,7 +8,7 @@
     "searchLocation": "bottom",
     "theme": "default",
     "monitorName": "PagerMon",
-    "faKey": "changeme"
+    "faKey": ""
   },
   "database": {
     "file": "./messages.db",
