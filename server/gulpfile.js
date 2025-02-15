@@ -1,15 +1,19 @@
 "use strict";
 
 const gulp = require("gulp");
+const environments = require('gulp-environments');
 const sass = require("gulp-sass")(require("sass"));
 const shell = require("gulp-shell");
 const { parallel } = require("gulp");
+
+const production = environments.production;
 
 const sassOptions = {
   loadPaths: ["node_modules"],
   quietDeps: true,
   silenceDeprecations: ["import"],
-  errLogToConsole: true
+  errLogToConsole: true,
+  style: production() ? "compressed" : "expanded",
 };
 
 gulp.task("fa-fonts", function() {

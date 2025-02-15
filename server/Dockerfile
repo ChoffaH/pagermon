@@ -4,6 +4,8 @@
 #
 FROM slocomptech/bi-node:12 AS builder
 
+ENV NODE_ENV=production
+
 COPY package.json /app/
 COPY gulpfile.js /app/
 COPY sass /app/sass
