@@ -42,7 +42,7 @@
         <i class="fa fa-plus"></i>
         <span class="d-none d-md-inline-block">Add</span>
       </button>
-      <button type="button" class="btn btn-sm btn-outline-danger" ng-disabled="!aliasSelected()" ng-click="aliasDelete()">
+      <button type="button" class="btn btn-sm btn-outline-danger" ng-disabled="!hasAliasSelection()" ng-click="aliasDelete()">
         <i class="fa fa-trash-alt"></i>
         <span class="d-none d-md-inline-block">Delete</span>
       </button>
@@ -68,7 +68,7 @@
     <tbody>
       <tr ng-repeat="alias in aliases | filter: search" ng-click="aliasDetail(alias.id)" class="cursor-pointer">
         <!-- TODO: Add links to filters -->
-        <td class="text-nowrap align-middle">
+        <td class="text-nowrap align-middle" ng-click="$event.stopPropagation()">
           <input type="checkbox" ng-model="alias.selected" class="form-check-input" ng-click="$event.stopPropagation()" />
         </td>
         <td class="text-primary text-nowrap align-middle">
@@ -109,4 +109,55 @@
       </tr>
     </tbody>
   </table>
+</div>
+
+<!-- Confirm Modal -->
+<div class="modal fade" id="confirmModal" tabindex="-1" aria-labelledby="confirmModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h1 class="modal-title fs-3" id="confirmModalLabel">{{modal.title}}</h1>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body" ng-bind-html="modal.body"></div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" ng-hide="modal.hideCancel">Cancel</button>
+        <button type="button" class="btn {{modal.confirmClass ? modal.confirmClass : 'btn-primary'}}" data-bs-dismiss="modal" ng-click="modalConfirmed()">
+          {{modal.confirm}}
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Alias Import Modal -->
+<div class="modal fade" id="importModal" tabindex="-1" aria-labelledby="importModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h1 class="modal-title fs-3" id="importModalLabel">Import Aliases</h1>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        <input type="file" accept=".csv" id="importcsv" class="mb-3" />
+        <div>
+          Available Columns: 
+          <span class="fst-italic text-danger">address</span>,
+          <span class="fst-italic text-danger">alias</span>,
+          <span class="fst-italic">agency</span>,
+          <span class="fst-italic">color</span>,
+          <span class="fst-italic">icon</span>,
+          <span class="fst-italic">ignore</span>,
+          <span class="fst-italic">pluginconf</span>
+        </div>
+        <div>Required columns are marked in red, all others are optional.</div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" ng-hide="modal.hideCancel">Cancel</button>
+        <button type="button" class="btn btn-success" data-bs-dismiss="modal" ng-click="aliasImportConfirmed()">
+          Import
+        </button>
+      </div>
+    </div>
+  </div>
 </div>

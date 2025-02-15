@@ -31,7 +31,7 @@
         <i class="fa fa-plus"></i>
         <span class="d-none d-sm-inline-block">Add</span>
       </button>
-      <button type="button" class="btn btn-sm btn-outline-danger" ng-disabled="!userSelected()" ng-click="userDelete()">
+      <button type="button" class="btn btn-sm btn-outline-danger" ng-disabled="!hasUserSelection()" ng-click="usersDelete()">
         <i class="fa fa-trash-alt"></i>
         <span class="d-none d-sm-inline-block">Delete</span>
       </button>
@@ -55,7 +55,7 @@
     </thead>
     <tbody>
       <tr ng-repeat="user in users | filter: search" ng-click="userDetail(user.id);" class="cursor-pointer">
-        <td class="text-nowrap align-middle">
+        <td class="text-nowrap align-middle" ng-click="$event.stopPropagation()">
           <input type="checkbox" class="form-check-input" ng-model="user.selected" ng-click="$event.stopPropagation()" />
         </td>
         <td class="text-primary align-middle">
@@ -81,4 +81,23 @@
         </td>
     </tbody>
   </table>
+</div>
+
+<!-- Confirm Modal -->
+<div class="modal fade" id="confirmModal" tabindex="-1" aria-labelledby="confirmModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h1 class="modal-title fs-3" id="confirmModalLabel">{{modal.title}}</h1>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body" ng-bind-html="modal.body"></div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" ng-hide="modal.hideCancel">Cancel</button>
+        <button type="button" class="btn {{modal.confirmClass ? modal.confirmClass : 'btn-primary'}}" data-bs-dismiss="modal" ng-click="modalConfirmed()">
+          {{modal.confirm}}
+        </button>
+      </div>
+    </div>
+  </div>
 </div>

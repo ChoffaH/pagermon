@@ -24,7 +24,7 @@
           <button type="button" class="btn btn-sm btn-danger" ng-if="!isNew" ng-click="userDelete()">
             <i class="fa fa-trash-alt"></i> Delete
           </button>
-          <button type="button" class="btn btn-sm btn-warning" ng-if="!isNew" ng-click="userReset()">
+          <button type="button" class="btn btn-sm btn-warning" ng-if="!isNew" ng-click="userResetPassword()">
             <i class="fa fa-unlock"></i> Reset Password
           </button>
           <button type="submit" class="btn btn-sm btn-success" ng-click="userSubmit()">
@@ -110,3 +110,55 @@
   </div>
 </div>
 
+<!-- Confirm Modal -->
+<div class="modal fade" id="confirmModal" tabindex="-1" aria-labelledby="confirmModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h1 class="modal-title fs-3" id="confirmModalLabel">{{modal.title}}</h1>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body" ng-bind-html="modal.body"></div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" ng-hide="modal.hideCancel">Cancel</button>
+        <button type="button" class="btn {{modal.confirmClass ? modal.confirmClass : 'btn-primary'}}" data-bs-dismiss="modal" ng-click="modalConfirmed()">
+          {{modal.confirm}}
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Reset Password Modal -->
+<div class="modal fade" id="resetPasswordModal" tabindex="-1" aria-labelledby="resetPasswordModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h1 class="modal-title fs-3" id="resetPasswordModalLabel">Reset Password</h1>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        <form name="form">
+          <div class="mb-3">
+            <label for="password" class="col-form-label">Password:</label>
+            <input type="password" class="form-control" id="password" name="password" ng-model="user.newpassword"
+            ui-validate=" '$value' " autofocus=true required>
+          </div>
+          <div class="mb-3">
+            <label for="confirm_password" class="col-form-label">Confirm Password:</label>
+            <input type="password" class="form-control" id="confirm_password" name="confirm_password"
+                ng-model="confirm_password" ui-validate=" '$value==user.newpassword' " ui-validate-watch=" 'user.newpassword' " required>
+            <span class="form-text text-danger" ng-show='form.confirm_password.$error.validator'>Passwords do not match!</span>
+          </div>
+        </form>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" ng-hide="modal.hideCancel">Cancel</button>
+        <button type="button" class="btn btn-primary" data-bs-dismiss="modal"
+          ng-click="userResetPasswordConfirmed()" ng-disabled="form.password.$error.validator || form.confirm_password.$error.validator">
+          Reset Password
+        </button>
+      </div>
+    </div>
+  </div>
+</div>

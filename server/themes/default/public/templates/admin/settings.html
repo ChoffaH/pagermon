@@ -437,7 +437,7 @@
         <button type="button" class="btn btn-sm btn-success" ng-click="addMatch()">
           <i class="fas fa-plus"></i> Add
         </button>
-        <button type="button" class="btn btn-sm btn-danger" ng-disabled="!matchSelected()" ng-click="removeMatch()">
+        <button type="button" class="btn btn-sm btn-danger" ng-disabled="!hasMatchSelection()" ng-click="removeMatch()">
           <i class="fas fa-trash-alt"></i> Delete
         </button>
       </div>
@@ -491,7 +491,7 @@
         <button type="button" class="btn btn-sm btn-success" ng-click="addTemplate()">
           <i class="fas fa-plus"></i> Add
         </button>
-        <button type="button" class="btn btn-sm btn-danger" ng-disabled="!templateSelected()" ng-click="removeTemplate()">
+        <button type="button" class="btn btn-sm btn-danger" ng-disabled="!hasTemplateSelection()" ng-click="removeTemplate()">
           <i class="fas fa-trash-alt"></i> Delete
         </button>
       </div>
@@ -548,7 +548,7 @@
         <button type="button" class="btn btn-sm btn-success" ng-click="addKey()">
           <i class="fas fa-plus"></i> Add
         </button>
-        <button type="button" class="btn btn-sm btn-danger" ng-disabled="!keySelected()" ng-click="removeKey()">
+        <button type="button" class="btn btn-sm btn-danger" ng-disabled="!hasKeySelection()" ng-click="removeKey()">
           <i class="fas fa-trash-alt"></i> Delete
         </button>
       </div>
