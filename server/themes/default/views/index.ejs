@@ -7,11 +7,11 @@
     <script>angular.module("angular-highlight",[]).directive("highlight",function(){return{link:function(e,t,h){h.highlightClass||(h.highlightClass="angular-highlight");var l=function(t,l){var a=function(e,t){for(var h=0;h<t.length;h++){var l=new RegExp(t[h].match,"gi");if(e.search(l)>-1)return t[h]}}(t,e.replacement);if("replace"==a.highlight)var r=new RegExp(a.match),i=t.replace(r,a.replace);else i=a.highlight?'<a href="/?q='+t+'" data-toggle="popover" class="'+h.highlightClass+'" title="'+a.replace+'" onmouseenter="$(this).tooltip(\'show\')">'+t+"</a>":'<a href="/?q='+t+'" data-toggle="popover" title="'+a.replace+'" onmouseenter="$(this).tooltip(\'show\')">'+t+"</a>";return i};e.$watch("replacement",function(){if(!e.replacement||""==e.replacement)return t.html(e.highlight),!1;var h=function(e){var t,h=e.length,l=[];for(t=0;t<h;t++)l.push(e[t].match.replace(new RegExp("^ | $","g"),""));return l}(e.replacement),a=new RegExp(h.join("|"),"gmi"),r=e.highlight.replace(a,l);t.html(r)})},replace:!1,scope:{highlight:"=",replacement:"="}}});</script>
 
     <script>
-      const role = "<%=user.role%>"
-      const apisecurity = <%=apisecurity%>
-      const hidecapcode = <%=hidecapcode%>
-      const login = <%=login%>
-      const pdwmode = <%=pdwmode%>
+      const role = "<%=user.role%>";
+      const apisecurity = <%=apisecurity%>;
+      const hidecapcode = <%=hidecapcode%>;
+      const login = <%=login%>;
+      const pdwmode = <%=pdwmode%>;
     </script>
     <script src="/javascripts/index.main.js"></script>
 
@@ -40,7 +40,7 @@
                 <th colspan="2">
                   <div class="btn-group btn-group-sm mb-1" role="group">
                     <button type="button" class="btn btn-secondary" ng-click="updateData();" aria-label="Refresh" title="Refresh Messages">
-                      <i class="fa fa-refresh {{spinner}}" aria-hidden="true"></i>
+                      <i class="fa fa-refresh {{loading ? 'fa-spin' : ''}}" aria-hidden="true"></i>
                     </button>
                     <button type="button" ng-if="notificationSupport == true" class="btn btn-secondary" ng-class="{active: notificationEnabled == 'true'}" ng-click="toggleNotifications();" aria-label="Notifications" title="Toggle Browser Notifications">
                         <i class="fa fa-bell" aria-hidden="true"></i>
@@ -67,10 +67,10 @@
                     </div>
                   </div>
                 </th>
-                <% if (!hidesource || (login && user.role == 'admin')) { %>
+                <% if (!hidesource || (login && role == 'admin')) { %>
                   <th class="align-middle text-secondary d-none d-md-table-cell">Src</th>
                 <% } %>
-                <% if (!hidecapcode || (login && user.role == 'admin')) { %>
+                <% if (!hidecapcode || (login && role == 'admin')) { %>
                   <th class="align-middle text-secondary d-none d-md-table-cell">Capcode</th>
                 <% } %>
                 <th class="align-middle text-secondary"></th>
@@ -89,25 +89,20 @@
               <tr ng-repeat="message in messages | filter: search">
                 <td class="text-nowrap align-middle text-secondary">{{message.date}}</td>
                 <td class="text-nowrap align-middle text-secondary">{{message.time}}</td>
-                <% if (!hidesource || (login && user.role == 'admin')) { %>
-                  <td class="text-nowrap align-middle text-secondary d-none d-md-table-cell clickable-td"
-                      uib-popover-template="'templates/popover.html'" popover-append-to-body=true 
-                      popover-animation=false ng-click="popoverEl = 'source'" popover-trigger="'outsideClick'"
-                      style="background-color: {{message.color || 'grey'}}; text-align: center;">
-                    <span class="small" style="color: white; font-family: monospace;"><strong>{{message.source}}</strong></span>
+                <% if (!hidesource || (login && role == 'admin')) { %>
+                  <td class="text-nowrap text-center text-white small font-monospace fw-bolder align-middle d-none d-md-table-cell clickable-td"
+                    tabindex="0" popover-content="source" style="background-color: {{message.color || 'grey'}}">
+                    {{message.source}}
                   </td>
                 <% } %>
-                <% if (!hidecapcode || (login && user.role == 'admin')) { %>
-                  <td class="text-nowrap align-middle text-secondary d-none d-md-table-cell clickable-td"
-                      uib-popover-template="'templates/popover.html'" popover-append-to-body=true
-                      popover-animation=false ng-click="popoverEl = 'address'" popover-trigger="'outsideClick'"
-                      style="background-color: {{message.color || 'grey'}}; text-align: center;">
-                    <span class="small" style="color: white; font-family: monospace;"><strong>{{message.address}}</strong></span>
+                <% if (!hidecapcode || (login && role == 'admin')) { %>
+                  <td class="text-nowrap text-center text-white small font-monospace fw-bolder align-middle d-none d-md-table-cell clickable-td"
+                    tabindex="0" popover-content="address" style="background-color: {{message.color || 'grey'}}">
+                    {{message.address}}
                   </td>
                 <% } %>
                 <td class="text-nowrap align-middle text-secondary clickable-td"
-                    uib-popover-template="'templates/popover.html'" popover-append-to-body=true
-                    popover-animation=false ng-click="popoverEl = 'agency'" popover-trigger="'outsideClick'">
+                  tabindex="0" popover-content="agency">
                   <% if (iconsize == 'small') { %>
                   <span class="fa-stack fa-fw align-middle" style="color: {{message.color || 'grey'}};">
                   <% } else { %>
@@ -119,14 +114,11 @@
                   </span>
                   <strong>{{message.agency || ''}}</strong>
                 </td>
-                <td class="text-nowrap align-middle text-secondary d-none d-md-table-cell clickable-td" ng-if="user"
-                    uib-popover-template="'templates/popover.html'" popover-append-to-body=true
-                    popover-animation=false ng-click="popoverEl = 'alias'" popover-trigger="'outsideClick'">
-                  <span style="color: Maroon;">{{message.alias || 'Unknown'}}</span>
+                <td class="text-nowrap align-middle text-primary d-none d-md-table-cell clickable-td" ng-if="message.alias"
+                  tabindex="0" popover-content="alias">
+                  {{message.alias}}
                 </td>
-                <td class="text-nowrap align-middle text-secondary d-none d-md-table-cell" ng-if="!user">
-                  <span>{{message.alias || ''}}</span>
-                </td>
+                <td class="text-nowrap align-middle text-secondary d-none d-md-table-cell" ng-if="!message.alias"></td>
                 <td class="align-middle w-100 text-secondary">
                   <div highlight="message.message" replacement="init.replaceText" class="fw-bold text-break"></div>
                 </td>

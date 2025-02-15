@@ -1,4 +1,4 @@
-angular.module('app', ['ngRoute', 'ngResource', 'ngCookies', 'angular-highlight', 'ui.bootstrap'])
+angular.module('app', ['ngRoute', 'ngResource', 'ngCookies', 'angular-highlight'])
   // Service
   .factory('socket', function ($rootScope) {
     var socket = io({transports: ['websocket'], upgrade: false});
@@ -86,8 +86,48 @@ angular.module('app', ['ngRoute', 'ngResource', 'ngCookies', 'angular-highlight'
     wrap('replaceState');
   })
 
+  // Directive for popovers
+  .directive('popoverContent', function ($compile) {
+    return function (scope, element, attrs) {
+      const contentType = attrs.popoverContent;
+      let content = '';
+
+      if (contentType === 'source') {
+        content = `
+          <a class="btn btn-primary" href="/?address={{message.source}}">Filter</a>
+        `;
+      } else if (contentType === 'address') {
+        content = `
+          <a class="btn btn-primary" href="/?address={{message.address}}">Filter</a>
+          <a class="btn btn-primary" ng-if="message.alias_id && role == 'admin'" target="_blank" href="/admin/aliases/{{message.alias_id}}">Edit Alias</a>
+          <a class="btn btn-primary" ng-if="(!message.alias_id || message.wildcard) && role == 'admin'" target="_blank" href="/admin/aliases/new?address={{message.address}}">Create Alias</a>
+        `;
+      } else if (contentType === 'agency') {
+        content = `
+          <a class="btn btn-primary" href="/?agency={{message.agency}}">Filter</a>
+        `;
+      } else if (contentType === 'alias') {
+        content = `
+          <a class="btn btn-primary" ng-if="message.alias_id" href="/?alias={{message.alias_id}}">Filter</a>
+          <a class="btn btn-primary" ng-if="message.alias_id && role == 'admin'" target="_blank" href="/admin/aliases/{{message.alias_id}}">Edit Alias</a>
+          <a class="btn btn-primary" ng-if="(!message.alias_id || message.wildcard) && role == 'admin'" target="_blank" href="/admin/aliases/new?address={{message.address}}">Create Alias</a>
+        `;
+      } 
+
+      new bootstrap.Popover(element, {
+        trigger: "focus",
+        html: true,
+        content: $compile(`
+          <div class="vstack gap-3">${content}</div>
+        `)(scope),
+      });
+    }
+  })
+
   // Controller
   .controller('MessageController', ['$scope', '$routeParams', 'Api', 'socket', 'adminSocket', '$cookies', '$location', '$window', function ($scope, $routeParams, Api, socket, adminSocket, $cookies, $location, $window) {
+    $scope.role = role;
+
     // Show the one-time modal after 3 seconds if the cookie is not set
     if (!$cookies.get('oneTimeModalShown')) {
       const oneTimeModal = document.getElementById('oneTimeModal');
@@ -102,7 +142,7 @@ angular.module('app', ['ngRoute', 'ngResource', 'ngCookies', 'angular-highlight'
         }, 3000);
       }
     }
-    
+
     // Get new message on socket event
     $scope.$on('$viewContentLoaded', function() {
       if (!apisecurity) {
@@ -218,14 +258,14 @@ angular.module('app', ['ngRoute', 'ngResource', 'ngCookies', 'angular-highlight'
     
     // this should be popped out into a separate file
     $scope.updateData = function (page, query) {
+      $scope.loading = true;
+      $scope.popoverEl = '';
+
       // check if browser supports notifications
       if ("Notification" in window) {
         $scope.notificationSupport = true;
       }
-      // spinner start
-      $scope.spinner = 'fa-spin';
-      $scope.loading = true;
-      $scope.popoverEl = '';
+
       // get limit from cookiestore
       var curPage = page || $routeParams.page || '1';
       var limit = $cookies.get('messageLimit') || '';
@@ -281,90 +321,56 @@ angular.module('app', ['ngRoute', 'ngResource', 'ngCookies', 'angular-highlight'
       
       if (queryObj.q || queryObj.agency || queryObj.address || queryObj.alias) {
         Api.MessageSearch.get(queryObj).$promise.then(function (results) {
-          //console.log(results);
-          results.init.currentPage++;
-          var startPage, endPage;
-          if (results.init.pageCount <= 10) {
-            // less than 10 total pages so show all
-            startPage = 1;
-            endPage = results.init.pageCount;
-          } else {
-            // more than 10 total pages so calculate start and end pages
-            if (results.init.currentPage <= 6) {
-              startPage = 1;
-              endPage = 10;
-            } else if (results.init.currentPage + 4 >= results.init.pageCount) {
-              startPage = results.init.pageCount - 9;
-              endPage = results.init.pageCount;
-            } else {
-              startPage = results.init.currentPage - 5;
-              endPage = results.init.currentPage + 4;
-            }
-          }
-          var pages = $scope.range(startPage, endPage);
-          results.init.pages = pages;
-          $scope.init = results.init;
-          angular.forEach(results.messages, function (result) {
-            var timestamp = moment.unix(result.timestamp);
-            result.date = timestamp.format("YYYY-MM-DD");
-            result.time = timestamp.format("HH:mm");
-            result.message = $scope.htmlEntities(result.message);
-            //  result.padAddress = $scope.padDigits(result.address,7);
-            //    result.aliasMatch = result['MAX(capcodes.address)'];
-          });
-          $scope.spinner = '';
-          $scope.loading = false;
-          $scope.messages = results.messages;
-          // spinner end
+          $scope.handleResponse(results);
         }, function (error) {
           console.log('Error on Api.MessageSearch.query!', error);
-          $scope.spinner = '';
           $scope.loading = false;
         });
       } else {
         Api.Messages.get({page: curPage, limit: limit}).$promise.then(function (results) {
-          //console.log(results);
-          results.init.currentPage++;
-          var startPage, endPage;
-          if (results.init.pageCount <= 10) {
-            // less than 10 total pages so show all
-            startPage = 1;
-            endPage = results.init.pageCount;
-          } else {
-            // more than 10 total pages so calculate start and end pages
-            if (results.init.currentPage <= 6) {
-              startPage = 1;
-              endPage = 10;
-            } else if (results.init.currentPage + 4 >= results.init.pageCount) {
-              startPage = results.init.pageCount - 9;
-              endPage = results.init.pageCount;
-            } else {
-              startPage = results.init.currentPage - 5;
-              endPage = results.init.currentPage + 4;
-            }
-          }
-          var pages = $scope.range(startPage, endPage);
-          results.init.pages = pages;
-          $scope.init = results.init;
-          angular.forEach(results.messages, function (result) {
-            var timestamp = moment.unix(result.timestamp);
-            result.date = timestamp.format("YYYY-MM-DD");
-            result.time = timestamp.format("HH:mm");
-            result.message = $scope.htmlEntities(result.message);
-            //  result.padAddress = $scope.padDigits(result.address,7);
-            //  result.aliasMatch = result['MAX(capcodes.address)'];
-          });
-          $scope.spinner = '';
-          $scope.loading = false;
-          $scope.messages = results.messages;
-          // spinner end
+          $scope.handleResponse(results);
         }, function (error) {
           console.log('Error on Api.Messages.query!', error);
-          $scope.spinner = '';
           $scope.loading = false;
         });
       }
     };
+
+    $scope.handleResponse = function (results) {
+      results.init.currentPage++;
+      let startPage, endPage;
+
+      if (results.init.pageCount <= 10) {
+        // less than 10 total pages so show all
+        startPage = 1;
+        endPage = results.init.pageCount;
+      } else {
+        // more than 10 total pages so calculate start and end pages
+        if (results.init.currentPage <= 6) {
+          startPage = 1;
+          endPage = 10;
+        } else if (results.init.currentPage + 4 >= results.init.pageCount) {
+          startPage = results.init.pageCount - 9;
+          endPage = results.init.pageCount;
+        } else {
+          startPage = results.init.currentPage - 5;
+          endPage = results.init.currentPage + 4;
+        }
+      }
+      var pages = $scope.range(startPage, endPage);
+      results.init.pages = pages;
+      $scope.init = results.init;
+      angular.forEach(results.messages, function (result) {
+        var timestamp = moment.unix(result.timestamp);
+        result.date = timestamp.format("YYYY-MM-DD");
+        result.time = timestamp.format("HH:mm");
+        result.message = $scope.htmlEntities(result.message);
+      });
+
+      $scope.loading = false;
+      $scope.messages = results.messages;
+    };
+    
     // run the updateData function on load
     $scope.updateData();
     
