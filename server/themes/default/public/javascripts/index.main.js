@@ -257,8 +257,11 @@ angular.module('app', ['ngRoute', 'ngResource', 'ngCookies', 'angular-highlight'
     });
     
     // this should be popped out into a separate file
-    $scope.updateData = function (page, query) {
+    $scope.updateData = function (page, $event) {
+      $event?.preventDefault();
+
       $scope.loading = true;
+      $scope.hasQuery = false;
       $scope.popoverEl = '';
 
       // check if browser supports notifications
@@ -274,16 +277,6 @@ angular.module('app', ['ngRoute', 'ngResource', 'ngCookies', 'angular-highlight'
       var queryObj = {};
       queryObj.page = curPage;
       queryObj.limit = limit;
-      
-      if ($routeParams.q || query) {
-        $scope.query = query || $routeParams.q;
-        $scope.origQuery = query || $routeParams.q;
-        $scope.hasQuery = true;
-        queryObj.q = query || $routeParams.q;
-      } else {
-        $scope.query = '';
-        $scope.hasQuery = false;
-      }
       
       if ($routeParams.agency || $routeParams.address || $routeParams.alias) {
         $scope.filter = $routeParams.agency || $routeParams.address || $routeParams.alias;
