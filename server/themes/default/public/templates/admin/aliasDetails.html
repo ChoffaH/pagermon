@@ -41,7 +41,7 @@
     <div class="row mb-3">
       <label for="alias.address" class="col-sm-2 col-form-label">Address</label>
       <div class="col-sm-10">
-        <div class="input-group">
+        <div class="input-group" ng-class="{'has-danger':!alias.address || existingAddress}">
           <input type="text" class="form-control" ng-class="{'is-invalid':!alias.address || existingAddress}" name="alias.address"
                   ng-model="alias.address" ng-change="checkAddress()" ng-model-options="{updateOn: 'blur'}" required>
           <button type="button" class="btn btn-sm btn-danger" ng-if="existingAddress" ng-click="aliasDetail(existingID)">
@@ -65,7 +65,7 @@
     <div class="row mb-3">
       <label for="alias.agency" class="col-sm-2 col-form-label">Agency</label>
       <div class="col-sm-10">
-        <div class="input-group">
+        <div class="input-group" ng-class="{'has-danger':!alias.agency}">
           <input type="text" class="form-control" ng-class="{'is-invalid':!alias.agency}" name="alias.agency" id="aliasAgency" ng-model="alias.agency" required>
           <button type="button" class="btn btn-sm btn-primary" data-bs-toggle="modal" data-bs-target="#aliasTemplateModal">Templates</button>
         </div>
@@ -100,7 +100,7 @@
 
     <div class="row mb-3">
       <label for="alias.alias" class="col-sm-2 col-form-label">Alias</label>
-      <div class="col-sm-10">
+      <div class="col-sm-10" ng-class="{'has-danger':!alias.alias}">
         <input type="text" class="form-control" ng-class="{'is-invalid':!alias.alias}" name="alias.alias" id="aliasName" ng-model="alias.alias" required>
         <span class="form-text">Text description of the alias</span>
       </div>
