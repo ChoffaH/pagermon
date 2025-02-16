@@ -1,4 +1,4 @@
-angular.module('app', ['ngRoute', 'ngResource', 'ngSanitize', 'angular-uuid', 'ui.validate', 'textAngular'])
+angular.module('app', ['ngRoute', 'ngResource', 'ui.validate'])
 // Service
 .factory('Api', ['$resource',
   function ($resource) {

@@ -62,6 +62,7 @@
     "sqlite3": "^5.1.6",
     "systemjs": "^0.20.13",
     "telegram-bot-api": "^1.2.2",
+    "textangular": "^1.5.16",
     "twit": "^1.1.20",
     "underscore": "^1.8.3",
     "util": "^0.10.3",

@@ -125,7 +125,7 @@ angular.module('app', ['ngRoute', 'ngResource', 'ngCookies', 'angular-highlight'
   })
 
   // Controller
-  .controller('MessageController', ['$scope', '$routeParams', 'Api', 'socket', 'adminSocket', '$cookies', '$location', '$window', function ($scope, $routeParams, Api, socket, adminSocket, $cookies, $location, $window) {
+  .controller('MessageController', ['$scope', '$routeParams', 'Api', 'socket', 'adminSocket', '$cookies', '$location', function ($scope, $routeParams, Api, socket, adminSocket, $cookies, $location) {
     $scope.role = role;
 
     // Show the one-time modal after 3 seconds if the cookie is not set
