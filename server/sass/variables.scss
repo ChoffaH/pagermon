@@ -3,6 +3,10 @@ $secondary: #666;
 $light: #f9f9f9;
 
 $navbar-padding-y: 0.3rem;
+$navbar-light-color: $primary;
+$navbar-light-hover-color: lighten($primary, 10%);
+$navbar-light-active-color: darken($primary, 10%);
+
 $font-size-base: 0.8rem;
 
 $input-padding-y: 0.5rem;
