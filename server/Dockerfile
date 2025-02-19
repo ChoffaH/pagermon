@@ -9,6 +9,7 @@ ENV NODE_ENV=production
 COPY package.json /app/
 COPY gulpfile.js /app/
 COPY sass /app/sass
+COPY vendor /app/vendor
 
 RUN apk add --no-cache --virtual .build-dependencies \
       autoconf \

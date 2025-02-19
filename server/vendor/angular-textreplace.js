@@ -1,11 +1,10 @@
 angular.module('angular-highlight', []).directive('highlight', function() {
 	var component = function(scope, element, attrs) {
-		
 		if (!attrs.highlightClass) {
 			attrs.highlightClass = 'angular-highlight';
 		}
-		
-		function arrSearch(nameKey, myArray){
+
+		function arrSearch(nameKey, myArray) {
 		    for (var i=0; i < myArray.length; i++) {
 		    	var rx = new RegExp(myArray[i].match, "gi");
 		        if (nameKey.search(rx) > -1) {
@@ -13,7 +12,7 @@ angular.module('angular-highlight', []).directive('highlight', function() {
 		        }
 		    }
 		}
-		
+
 		var rReplacer = function(match, item) {
 			var resultObject = arrSearch(match, scope.replacement);
 			
@@ -34,6 +33,7 @@ angular.module('angular-highlight', []).directive('highlight', function() {
 			}
 			return html;
 		};
+
 		var rTokenize = function(keywords) {
 			var i;
 			var l = keywords.length;
@@ -43,7 +43,7 @@ angular.module('angular-highlight', []).directive('highlight', function() {
 			}
 			return keyArr;
 		};
-		
+
 		scope.$watch('replacement', function() {
 			if (!scope.replacement || scope.replacement == '') {
 				element.html(scope.highlight);
@@ -58,6 +58,7 @@ angular.module('angular-highlight', []).directive('highlight', function() {
 			element.html(html);
 		});
 	};
+
 	return {
 		link: 			 component,
 		replace:		 false,

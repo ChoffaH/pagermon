@@ -5,6 +5,7 @@ const environments = require('gulp-environments');
 const sass = require("gulp-sass")(require("sass"));
 const shell = require("gulp-shell");
 const { parallel } = require("gulp");
+const minify = require('gulp-minify');
 
 const production = environments.production;
 
@@ -37,7 +38,13 @@ gulp.task("sass:watch", function () {
   gulp.watch("./sass/*.scss", gulp.series("sass"));
 });
 
+gulp.task('vendor-js', function() {
+  return gulp.src(['vendor/*.js'])
+    .pipe(minify())
+    .pipe(gulp.dest('themes/default/public/assets/js'))
+});
+
 gulp.task("node", shell.task("node app.js"));
-gulp.task("server", gulp.series("fa-fonts", "fa-sass", "sass", "node"));
+gulp.task("server", gulp.series("fa-fonts", "fa-sass", "sass", "vendor-js", "node"));
 gulp.task("default", parallel("sass:watch", "server"));
-gulp.task("build", gulp.series("fa-fonts", "fa-sass", "sass"));
+gulp.task("build",  gulp.series("fa-fonts", "fa-sass", "sass", "vendor-js"));
