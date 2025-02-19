@@ -162,3 +162,8 @@ color-picker .color-picker-input-wrapper {
 .text-secondary {
     color: $secondary !important;
 }
+
+// Override stupid textAngular CSS
+.popover {
+    padding: unset;
+}
