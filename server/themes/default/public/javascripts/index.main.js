@@ -94,21 +94,21 @@ angular.module('app', ['ngRoute', 'ngResource', 'ngCookies', 'angular-highlight'
 
       if (contentType === 'source') {
         content = `
-          <a class="btn btn-primary" href="/?address={{message.source}}">Filter</a>
+          <button type="button" class="btn btn-primary" ng-click="updateFilter('address', message.source)">Filter</button>
         `;
       } else if (contentType === 'address') {
         content = `
-          <a class="btn btn-primary" href="/?address={{message.address}}">Filter</a>
+          <button type="button" class="btn btn-primary" ng-click="updateFilter('address', message.address)">Filter</button>
           <a class="btn btn-primary" ng-if="message.alias_id && role == 'admin'" target="_blank" href="/admin/aliases/{{message.alias_id}}">Edit Alias</a>
           <a class="btn btn-primary" ng-if="(!message.alias_id || message.wildcard) && role == 'admin'" target="_blank" href="/admin/aliases/new?address={{message.address}}">Create Alias</a>
         `;
       } else if (contentType === 'agency') {
         content = `
-          <a class="btn btn-primary" href="/?agency={{message.agency}}">Filter</a>
+          <button type="button" class="btn btn-primary" ng-click="updateFilter('agency', message.agency)">Filter</button>
         `;
       } else if (contentType === 'alias') {
         content = `
-          <a class="btn btn-primary" ng-if="message.alias_id" href="/?alias={{message.alias_id}}">Filter</a>
+          <button type="button" class="btn btn-primary" ng-click="updateFilter('alias', message.alias_id)">Filter</button>
           <a class="btn btn-primary" ng-if="message.alias_id && role == 'admin'" target="_blank" href="/admin/aliases/{{message.alias_id}}">Edit Alias</a>
           <a class="btn btn-primary" ng-if="(!message.alias_id || message.wildcard) && role == 'admin'" target="_blank" href="/admin/aliases/new?address={{message.address}}">Create Alias</a>
         `;
@@ -127,6 +127,12 @@ angular.module('app', ['ngRoute', 'ngResource', 'ngCookies', 'angular-highlight'
   // Controller
   .controller('MessageController', ['$scope', '$routeParams', 'Api', 'socket', 'adminSocket', '$cookies', '$location', function ($scope, $routeParams, Api, socket, adminSocket, $cookies, $location) {
     $scope.role = role;
+    $scope.page = parseInt($routeParams.page) || 1;
+    $scope.query = $routeParams.q;
+    $scope.address = $routeParams.address;
+    $scope.agency = $routeParams.agency;
+    $scope.alias = $routeParams.alias;
+    $scope.filter = [];
 
     // Show the one-time modal after 3 seconds if the cookie is not set
     if (!$cookies.get('oneTimeModalShown')) {
@@ -210,15 +216,13 @@ angular.module('app', ['ngRoute', 'ngResource', 'ngCookies', 'angular-highlight'
           }
         }
         
-        
-        // only bother getting the new message if we're on page 1
-        if ($scope.init?.currentPage === 1) {
+        // Only bother getting the new message if we're on page 1
+        if ($scope.page === 1) {
           console.log('New Message ID: '+message.id + ' currentPage: '+$scope.init.currentPage);
           var timestamp = moment.unix(message.timestamp);
           message.date = timestamp.format("YYYY-MM-DD");
           message.time = timestamp.format("HH:mm");
-          //  result.padAddress = $scope.padDigits(result.address,7);
-          //  result.aliasMatch = result['MAX(capcodes.address)'];
+
           if ($routeParams.q || $routeParams.agency || $routeParams.alias || $routeParams.address) {
             if ($routeParams.q) {
               var patt = new RegExp($routeParams.q, 'i');
@@ -255,14 +259,62 @@ angular.module('app', ['ngRoute', 'ngResource', 'ngCookies', 'angular-highlight'
         }
       });
     });
+
+    $scope.updateFilter = function (filter, value = null) {
+      switch (filter) {
+        case "page":
+          $scope.page = value;
+          break;
+        case "query":
+          $scope.query = value;
+          break;
+        case "address":
+          $scope.address = value;
+          break;
+        case "agency":
+          $scope.agency = value;
+          break;
+        case "alias":
+          $scope.alias = value;
+          break;
+      }
+
+      if (filter !== "page") {
+        $scope.page = 1;
+      }
+
+      $scope.updateUrl();
+      $scope.updateData();
+    };
+
+    $scope.updateUrl = function () {
+      const qArray = [];
+
+      if ($scope.page > 1)
+        qArray.push('page=' + encodeURIComponent($scope.page));
+      if ($scope.query)
+        qArray.push('q=' + encodeURIComponent($scope.query));
+      if ($scope.address)
+        qArray.push('address=' + encodeURIComponent($scope.address));
+      if ($scope.agency)
+        qArray.push('agency=' + encodeURIComponent($scope.agency));
+      if ($scope.alias)
+        qArray.push('alias=' + encodeURIComponent($scope.alias));
+      
+      // Default query string is "/" - this prevents the state from not passing on firefox
+      let qString = '/';
+
+      if (qArray.length > 0) {
+        qString = '?' + qArray.join('&');
+      }
+
+      window.history.pushState('', '', qString);
+    };
     
     // this should be popped out into a separate file
-    $scope.updateData = function (page, $event) {
-      $event?.preventDefault();
-
+    $scope.updateData = function () {
       $scope.loading = true;
-      $scope.hasQuery = false;
-      $scope.popoverEl = '';
+      $scope.filter = [];
 
       // check if browser supports notifications
       if ("Notification" in window) {
@@ -270,46 +322,29 @@ angular.module('app', ['ngRoute', 'ngResource', 'ngCookies', 'angular-highlight'
       }
 
       // get limit from cookiestore
-      var curPage = page || $routeParams.page || '1';
-      var limit = $cookies.get('messageLimit') || '';
+      const curPage = $scope.page;
+      const limit = $cookies.get('messageLimit') || '';
       $scope.notificationEnabled = $cookies.get('notificationEnabled') || 'true';
       
-      var queryObj = {};
+      const queryObj = {};
       queryObj.page = curPage;
       queryObj.limit = limit;
-      
-      if ($routeParams.agency || $routeParams.address || $routeParams.alias) {
-        $scope.filter = $routeParams.agency || $routeParams.address || $routeParams.alias;
-        $scope.hasQuery = true;
-        if ($routeParams.agency)
-          queryObj.agency = $routeParams.agency;
-        if ($routeParams.address)
-          queryObj.address = $routeParams.address;
-        if ($routeParams.alias)
-          queryObj.alias = $routeParams.alias;
+
+      if ($scope.query) {
+        queryObj.q = $scope.query;
+        $scope.filter.push({ type: "query", value: $scope.query });
       }
-      
-      if (page) {
-        // if page then we have been passed a page var directly to the updateData func, which means we clicked on a page change button
-        // encoding everything prevents issues with some special chars
-        var qArray = [];
-        if (queryObj.q)
-          qArray.push('q=' + encodeURIComponent(queryObj.q));
-        if (queryObj.address)
-          qArray.push('address=' + encodeURIComponent(queryObj.address));
-        if (queryObj.agency)
-          qArray.push('agency=' + encodeURIComponent(queryObj.agency));
-        if (queryObj.alias)
-          qArray.push('alias=' + encodeURIComponent(queryObj.alias));
-        if (queryObj.page > 1)
-          qArray.push('page=' + encodeURIComponent(queryObj.page));
-        
-        // default query string is "/" - this prevents the state from not passing on firefox
-        var qString = '/';
-        if (qArray.length > 0) {
-          qString = '?' + qArray.join('&');
-        }
-        window.history.pushState('', '', qString);
+      if ($scope.agency) {
+        queryObj.agency = $scope.agency;
+        $scope.filter.push({ type: "agency", value: $scope.agency });
+      }
+      if ($scope.address) {
+        queryObj.address = $scope.address;
+        $scope.filter.push({ type: "address", value: $scope.address });
+      }
+      if ($scope.alias) {
+        queryObj.alias = $scope.alias;
+        $scope.filter.push({ type: "alias", value: $scope.alias });
       }
       
       if (queryObj.q || queryObj.agency || queryObj.address || queryObj.alias) {
@@ -364,9 +399,6 @@ angular.module('app', ['ngRoute', 'ngResource', 'ngCookies', 'angular-highlight'
       $scope.messages = results.messages;
     };
     
-    // run the updateData function on load
-    $scope.updateData();
-    
     // helper functions below
     $scope.range = function (min, max, step) {
       step = step || 1;
@@ -389,7 +421,7 @@ angular.module('app', ['ngRoute', 'ngResource', 'ngCookies', 'angular-highlight'
       var expireDate = new Date();
       expireDate.setDate(expireDate.getDate() + 30);
       $cookies.put(cookie, value, { 'expires': expireDate });
-      $scope.updateData($scope.init.currentPage);
+      $scope.updateData();
     };
     
     $scope.toggleNotifications = function () {
@@ -406,16 +438,13 @@ angular.module('app', ['ngRoute', 'ngResource', 'ngCookies', 'angular-highlight'
       }
     };
     
-    $scope.clearSearch = function() {
-      $location.search("q", null);
-      $scope.query = "";
-    };
-    
-    // destroy socket when we navigate away
+    // Destroy socket when we navigate away
     $scope.$on('$destroy', function() {
       socket.close();
     });
-    
+
+    // Run the updateData function on load
+    $scope.updateData();
   }])
 
   // Routes

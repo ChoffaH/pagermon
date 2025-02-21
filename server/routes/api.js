@@ -570,6 +570,7 @@ router.route('/messageSearch')
     var agency;
     var address;
     var alias;
+
     // dodgy handling for unexpected results
     if (typeof req.query.q !== 'undefined') {
       query = req.query.q;
@@ -596,6 +597,7 @@ router.route('/messageSearch')
         } else {
           qb.from('messages');
         }
+
         if (pdwMode) {
           if (adminShow && req.isAuthenticated() && req.user.role == 'admin') {
             qb.leftJoin('capcodes', 'capcodes.id', '=', 'messages.alias_id');
@@ -605,6 +607,7 @@ router.route('/messageSearch')
         } else {
           qb.leftJoin('capcodes', 'capcodes.id', '=', 'messages.alias_id');
         }
+
         if (dbtype == 'sqlite3' && query != '') {
           qb.whereRaw('messages_search_index MATCH ?', query)
         } else if (dbtype == 'mysql' && query != '') {
@@ -613,15 +616,22 @@ router.route('/messageSearch')
           qb.whereRaw(`MATCH(messages.message, messages.address, messages.source) AGAINST (? IN BOOLEAN MODE)`, query)
         } else if (dbtype == 'oracledb' && query != '') {
           qb.whereRaw(`CONTAINS("messages"."message", ?, 1) > 0`, query)
-        } else {
-          if (address != '')
-            qb.where('messages.address', 'LIKE', address).orWhere('messages.source', address);
-          if (agency != '')
-            qb.whereIn('messages.alias_id', function (qb2) {
-              qb2.select('id').from('capcodes').where('agency', agency).where('ignore', 0);
-          })
-          if (alias != '')
-            qb.where('messages.alias_id',alias);
+        }
+
+        if (address != '') {
+          qb.where(function () {
+            this.where('messages.address', 'LIKE', address).orWhere('messages.source', address);
+          });
+        }
+
+        if (agency != '') {
+          qb.whereIn('messages.alias_id', function (qb2) {
+            qb2.select('id').from('capcodes').where('agency', agency).where('ignore', 0);
+          });
+        }
+
+        if (alias != '') {
+          qb.where('messages.alias_id',alias);
         }
       }).orderBy('messages.timestamp', 'desc')
       .then((rows) => {

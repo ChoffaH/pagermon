@@ -74,11 +74,11 @@
                 <th class="align-middle text-secondary d-none d-md-table-cell"></th>
                 <th class="align-middle text-secondary">
                   Message
-                  <span ng-if="filter || hasQuery" class="border-start p-1">
-                      <strong>Filter:</strong> 
-                      <a ng-href="/" class="btn btn-primary btn-sm mb-1">
-                        {{filter || origQuery}} <i class="fa fa-fw fa-times"></i>
-                      </a>
+                  <span ng-if="filter.length" class="border-start p-1">
+                      <strong>Filter:</strong>
+                      <button type="button" class="btn btn-primary btn-sm me-1" ng-repeat="f in filter" ng-click="updateFilter(f.type)">
+                        {{f.value}} <i class="fa fa-fw fa-times"></i>
+                      </button>
                   </span></th>
               </tr>
             </thead>
@@ -117,7 +117,7 @@
                 </td>
                 <td class="text-nowrap align-middle text-secondary d-none d-md-table-cell" ng-if="!message.alias"></td>
                 <td class="align-middle w-100 text-secondary">
-                  <div highlight="message.message" replacement="init.replaceText" class="fw-bold text-break"></div>
+                  <div highlight="message.message" replacement="init.replaceText" click-handler="updateFilter" class="fw-bold text-break"></div>
                 </td>
             </tbody>
           </table>
@@ -126,10 +126,12 @@
         <div class="row" ng-if="messages.length == 0">
           <div class="text-center">
             <h4>No messages found!</h4>
-            <div ng-if="hasQuery"><p>Consider broadening your search terms and try again.</p></div>
-            <div ng-if="!hasQuery"><p>Have you loaded any message data yet?</p>
-              <p>If you believe you reached this message by error, <a href="https://github.com/pagermon/pagermon/issues"
-                                                                      target="_blank">log an issue.</a></p>
+            <div ng-if="filter.length"><p>Consider broadening your search terms and try again.</p></div>
+            <div ng-if="!filter.length">
+              <p>Have you loaded any message data yet?</p>
+              <p>
+                If you believe you reached this message by error, <a href="https://github.com/pagermon/pagermon/issues" target="_blank">log an issue.</a>
+              </p>
             </div>
           </div>
         </div>

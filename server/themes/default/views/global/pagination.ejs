@@ -2,7 +2,7 @@
   <div class="col-sm-10 col-xl-6">  
     <ul ng-if="init.pageCount" class="pagination d-table w-100 text-center">
       <li ng-class="{disabled:init.currentPage === 1}" class="page-item d-table-cell">
-        <a href="#" ng-click="updateData(1, $event);" class="page-link" aria-label="First">
+        <a href="#" ng-click="updateFilter('page', 1); $event.preventDefault()" class="page-link" aria-label="First">
           <i class="fa fa-angle-double-left"></i>
         </a>
       </li>
@@ -10,28 +10,28 @@
         <span ng-if="init.currentPage === 1" class="page-link" aria-label="Previous">
           <i class="fa fa-angle-left"></i>
         </span>
-        <a href="#" ng-if="init.currentPage != 1" ng-click="updateData(init.currentPage-1, $event);" class="page-link" aria-label="Previous">
+        <a href="#" ng-if="init.currentPage != 1" ng-click="updateFilter('page', init.currentPage-1); $event.preventDefault();" class="page-link" aria-label="Previous">
           <i class="fa fa-angle-left d-none d-sm-inline-block"></i>
           <span class="d-sm-none">{{init.currentPage-1}}</span>
         </a>
       </li>
       <li ng-repeat="page in init.pages" ng-class="{active:init.currentPage === page}" class="page-item d-none d-sm-table-cell">
-        <a href="#" ng-click="updateData(page, $event);" class="page-link">{{page}}</a>
+        <a href="#" ng-click="updateFilter('page', page); $event.preventDefault();" class="page-link">{{page}}</a>
       </li>
       <li class="active page-item d-table-cell d-sm-none">
-        <a href="#" ng-click="updateData(init.currentPage, $event);" class="page-link">{{init.currentPage}}</a>
+        <a href="#" ng-click="updateFilter('page', init.currentPage); $event.preventDefault();" class="page-link">{{init.currentPage}}</a>
       </li>              
       <li ng-class="{disabled:init.currentPage === init.pageCount}" class="page-item d-table-cell">
         <span ng-if="init.currentPage === init.pageCount" class="page-link">
           <i class="fa fa-angle-right"></i>
         </span>
-        <a href="#" ng-if="init.currentPage != init.pageCount" ng-click="updateData(init.currentPage+1, $event);" class="page-link" aria-label="Next">
+        <a href="#" ng-if="init.currentPage != init.pageCount" ng-click="updateFilter('page', init.currentPage+1); $event.preventDefault();" class="page-link" aria-label="Next">
           <i class="fa fa-angle-right d-none d-sm-inline-block"></i>
           <span class="d-sm-none">{{init.currentPage+1}}</span>
         </a>
       </li>
       <li ng-class="{disabled:init.currentPage === init.pageCount}" class="page-item d-table-cell">
-        <a href="#" ng-click="updateData(init.pageCount, $event);" class="page-link" aria-label="Last">
+        <a href="#" ng-click="updateFilter('page', init.pageCount); $event.preventDefault()" class="page-link" aria-label="Last">
           <i class="fa fa-angle-double-right"></i>
         </a>
       </li>
