@@ -44,7 +44,11 @@ gulp.task('vendor-js', function() {
     .pipe(gulp.dest('themes/default/public/assets/js'))
 });
 
+gulp.task("vendor-js:watch", function () {
+  gulp.watch("./vendor/*.js", gulp.series("vendor-js"));
+});
+
 gulp.task("node", shell.task("node app.js"));
 gulp.task("server", gulp.series("fa-fonts", "fa-sass", "sass", "vendor-js", "node"));
-gulp.task("default", parallel("sass:watch", "server"));
+gulp.task("default", parallel("sass:watch", "vendor-js:watch", "server"));
 gulp.task("build",  gulp.series("fa-fonts", "fa-sass", "sass", "vendor-js"));
